@@ -41,8 +41,8 @@ function SparkBackground() {
 
 export function AuthPage({ title, subtitle, children }: { title: string; subtitle: string; children: React.ReactNode }) {
   return (
-    <main className="grid min-h-screen bg-[#0a150c] lg:grid-cols-[.8fr_1.2fr]">
-      <section className="hidden bg-[#0a150c] p-12 text-sidebar-foreground lg:flex lg:flex-col border-r border-sidebar-border/30 relative overflow-hidden">
+    <main className="grid min-h-screen bg-[#09140b] lg:grid-cols-[.8fr_1.2fr]">
+      <section className="hidden bg-[radial-gradient(ellipse_at_center,_#1d3c26_0%,_#102417_50%,_#09140b_100%)] p-12 text-sidebar-foreground lg:flex lg:flex-col border-r border-sidebar-border/30 relative overflow-hidden">
         <SparkBackground />
         <div className="relative z-10 flex flex-col h-full w-full">
           <ReMarginLogo />
@@ -54,7 +54,7 @@ export function AuthPage({ title, subtitle, children }: { title: string; subtitl
                 loop 
                 muted 
                 playsInline 
-                className="w-full h-auto object-contain mix-blend-screen scale-105"
+                className="w-full h-auto object-contain scale-110 [mask-image:radial-gradient(ellipse_at_center,black_55%,transparent_95%)] [-webkit-mask-image:radial-gradient(ellipse_at_center,black_55%,transparent_95%)]"
               />
             </div>
           </div>
