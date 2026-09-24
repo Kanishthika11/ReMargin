@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowRight, BarChart3, Camera, CircleDollarSign, Cloud, Factory, FileCheck2, Gauge, Leaf, Recycle, ShieldCheck, SunMedium, Wrench, ArrowUpRight, Network, Target, FileText, Cpu, ScanLine, CalendarDays, Lock } from "lucide-react";
-import heroImage from "@/assets/sustainable_city_globe.jpg";
 import greenGlobeImage from "@/assets/green_globe.png";
+import { HeroGlobe } from "@/components/hero-globe";
 import noveltyImg1 from "@/assets/novelty_01.jpg";
 import noveltyImg2 from "@/assets/novelty_02.jpg";
 import noveltyImg3 from "@/assets/novelty_03.jpg";
@@ -277,29 +277,10 @@ function LandingPage() {
             </div>
           </div>
 
-          {/* Right Image (Floating Island) */}
+          {/* Right Hero Video Graphic */}
           <div className="flex-1 relative w-full h-[50vh] lg:h-[80vh] flex items-center justify-center">
             <div className="relative w-full max-w-lg animate-float">
-              <img src={heroImage} alt="Floating green island" className="w-full h-auto object-contain drop-shadow-2xl mix-blend-screen opacity-90 rounded-[3rem] border border-primary/20" />
-              
-              {/* Stats Glass Card */}
-              <div className="glass-card absolute -bottom-6 -right-6 lg:bottom-12 lg:-right-12 p-5 rounded-2xl w-64">
-                <div className="space-y-4">
-                  <div>
-                    <p className="text-primary font-display font-bold text-xl">+412 MWH</p>
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mt-1">Verified Generation - Last 24H</p>
-                  </div>
-                  <div className="h-px w-full bg-border"></div>
-                  <div className="flex justify-between items-center">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Curtailed</p>
-                    <p className="text-primary font-bold text-sm">12.1 MWH</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Scrap Reduced</p>
-                    <p className="text-primary font-bold text-sm">42 KG</p>
-                  </div>
-                </div>
-              </div>
+              <HeroGlobe />
             </div>
           </div>
         </div>
