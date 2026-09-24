@@ -197,6 +197,11 @@
   animation: fade-in 0.5s ease-out forwards;
 }
 
+@utility font-display {
+  font-family: var(--font-display);
+  font-style: italic;
+}
+
 @utility glass-card {
   background: color-mix(in oklab, var(--color-background) 40%, transparent);
   backdrop-filter: blur(12px);
