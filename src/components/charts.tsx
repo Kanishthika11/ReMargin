@@ -53,7 +53,7 @@ export function TrendChart({ kind = "carbon" }: { kind?: "carbon" | "energy" | "
     }
   };
 
-  return <Line options={customOptions} data={{ labels: chartMonths, datasets: [{ data: values, borderColor: strokeColor, backgroundColor: fillColor, fill: true, tension: 0.38, pointRadius: 4, pointBackgroundColor: "#95eb27", pointHoverRadius: 6 }] }} />;
+  return <Line options={customOptions} data={{ labels: chartMonths, datasets: [{ data: values, borderColor: strokeColor, backgroundColor: fillColor, fill: true, tension: 0.38, pointRadius: 4, pointBackgroundColor: "#48a65e", pointHoverRadius: 6 }] }} />;
 }
 
 export function ComparisonChart() {
@@ -74,11 +74,11 @@ export function ComparisonChart() {
     }
   };
 
-  return <Bar options={customOptions} data={{ labels: chartMonths, datasets: [{ label: "Actual", data: energySeries, backgroundColor: "#072115", borderRadius: 6 }, { label: "Ideal", data: idealEnergySeries, backgroundColor: "#95eb27", borderRadius: 6 }] }} />;
+  return <Bar options={customOptions} data={{ labels: chartMonths, datasets: [{ label: "Actual", data: energySeries, backgroundColor: "#072115", borderRadius: 6 }, { label: "Ideal", data: idealEnergySeries, backgroundColor: "#48a65e", borderRadius: 6 }] }} />;
 }
 
 export function ScopeChart() {
-  return <Doughnut options={{ responsive: true, maintainAspectRatio: false, cutout: "74%", plugins: { legend: { position: "bottom", labels: { usePointStyle: true, boxWidth: 8, color: "#374151", font: { weight: 500 } } } } }} data={{ labels: ["Scope 1 (Direct)", "Scope 2 (Electricity)"], datasets: [{ data: [18, 82], backgroundColor: ["#072115", "#95eb27"], borderWidth: 0 }] }} />;
+  return <Doughnut options={{ responsive: true, maintainAspectRatio: false, cutout: "74%", plugins: { legend: { position: "bottom", labels: { usePointStyle: true, boxWidth: 8, color: "#374151", font: { weight: 500 } } } } }} data={{ labels: ["Scope 1 (Direct)", "Scope 2 (Electricity)"], datasets: [{ data: [18, 82], backgroundColor: ["#072115", "#48a65e"], borderWidth: 0 }] }} />;
 }
 
 export function YieldRadarChart() {
@@ -117,11 +117,11 @@ export function YieldRadarChart() {
       {
         label: "Actual (Apr–Sep 2026)",
         data: [93, 91, 95, 94, 92, 94],
-        borderColor: "#95eb27",
+        borderColor: "#48a65e",
         backgroundColor: "rgba(149, 235, 39, 0.25)",
         borderWidth: 2,
         pointRadius: 4,
-        pointBackgroundColor: "#95eb27"
+        pointBackgroundColor: "#48a65e"
       }
     ]
   };
@@ -158,7 +158,7 @@ export function ScrapBarChart() {
       {
         label: "Scrap Loss (₹)",
         data: [18.4, 14.2, 19.6, 11.8, 10.2, 9.6].map(x => x * 1000),
-        backgroundColor: ["#ef4444", "#f97316", "#ef4444", "#10b981", "#95eb27", "#95eb27"],
+        backgroundColor: ["#ef4444", "#f97316", "#ef4444", "#10b981", "#48a65e", "#48a65e"],
         borderRadius: 6,
         barThickness: 24
       }
@@ -197,7 +197,7 @@ export function ProductEmissionChart() {
     datasets: [
       { label: "EN8 Shafts", data: [0.42, 0.39, 0.45, 0.38, 0.36, 0.34], backgroundColor: "#072115", borderRadius: 4 },
       { label: "Cast Gears", data: [0.32, 0.30, 0.34, 0.28, 0.27, 0.25], backgroundColor: "#10b981", borderRadius: 4 },
-      { label: "Steel Plates", data: [0.20, 0.19, 0.21, 0.18, 0.17, 0.16], backgroundColor: "#95eb27", borderRadius: 4 },
+      { label: "Steel Plates", data: [0.20, 0.19, 0.21, 0.18, 0.17, 0.16], backgroundColor: "#48a65e", borderRadius: 4 },
       { label: "Flanges", data: [0.10, 0.09, 0.08, 0.08, 0.07, 0.07], backgroundColor: "#34d399", borderRadius: 4 },
       { label: "Precision Pins", data: [0.04, 0.05, 0.04, 0.04, 0.04, 0.04], backgroundColor: "#a2c2b0", borderRadius: 4 },
     ]
@@ -245,7 +245,7 @@ export function BaselineVsCurrentChart() {
         type: "bar" as const,
         label: "Current Emissions (t)",
         data: [1.08, 1.02, 1.12, 0.96, 0.91, 0.86],
-        backgroundColor: "#95eb27",
+        backgroundColor: "#48a65e",
         borderRadius: 6,
         barThickness: 20
       }
@@ -314,7 +314,7 @@ export function CostVsCarbonChart() {
         yAxisID: "yCarbon",
         tension: 0.35,
         pointRadius: 4,
-        pointBackgroundColor: "#95eb27"
+        pointBackgroundColor: "#48a65e"
       }
     ]
   };
@@ -362,7 +362,7 @@ export function ExpectedVsEstimatedEnergyChart() {
         type: "bar" as const,
         label: "Estimated Energy (kWh)",
         data: [1280, 1190, 1340, 1110, 1080, 1040],
-        backgroundColor: "#95eb27",
+        backgroundColor: "#48a65e",
         borderRadius: 6,
         barThickness: 20
       }
@@ -373,40 +373,35 @@ export function ExpectedVsEstimatedEnergyChart() {
 }
 
 export function EstimatedVsActualScoreChart() {
-  const customOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    indexAxis: "y" as const,
-    plugins: {
-      legend: { display: false },
-      tooltip: { backgroundColor: "#072115", padding: 12, cornerRadius: 8, titleColor: "#ffffff", bodyColor: "#e1e8e2" }
-    },
-    scales: {
-      x: {
-        min: 0,
-        max: 100,
-        grid: { color: "rgba(255, 255, 255, 0.08)" },
-        border: { display: false },
-        ticks: { color: "#a2c2b0", font: { family: "Manrope, sans-serif", weight: 600 }, callback: (v: any) => `${v}%` }
-      },
-      y: {
-        grid: { display: false },
-        ticks: { color: "#ffffff", font: { family: "Sora, sans-serif", weight: 700, size: 11 } }
-      }
-    }
-  };
-
-  const data = {
-    labels: ["Estimated Score", "Actual Score"],
-    datasets: [
-      {
-        data: [83.3, 91.6],
-        backgroundColor: ["#10b981", "#95eb27"],
-        borderRadius: 6,
-        barThickness: 22
-      }
-    ]
-  };
-
-  return <Bar options={customOptions} data={data} />;
+  return (
+    <Doughnut
+      options={{
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: "74%",
+        plugins: {
+          legend: {
+            position: "bottom" as const,
+            labels: {
+              usePointStyle: true,
+              boxWidth: 8,
+              color: "#a2c2b0",
+              font: { family: "Manrope, sans-serif", weight: 600, size: 11 }
+            }
+          },
+          tooltip: { backgroundColor: "#072115", padding: 12, cornerRadius: 8, titleColor: "#ffffff", bodyColor: "#e1e8e2" }
+        }
+      }}
+      data={{
+        labels: ["Estimated Score", "Actual Score"],
+        datasets: [
+          {
+            data: [83.3, 91.6],
+            backgroundColor: ["#10b981", "#48a65e"],
+            borderWidth: 0
+          }
+        ]
+      }}
+    />
+  );
 }

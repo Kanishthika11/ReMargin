@@ -183,9 +183,9 @@
 @utility status-success { background: var(--color-success); }
 @utility status-warning { background: var(--color-warning); }
 @utility demo-badge { display: inline-flex; white-space: nowrap; border-radius: 9999px; background: var(--color-muted); padding: .25rem .55rem; color: var(--color-muted-foreground); font-size: .62rem; font-weight: 750; text-transform: uppercase; }
-@utility eyebrow { margin-bottom: .45rem; color: #95eb27; font-size: .68rem; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; }
-@utility form-label { display: block; margin-bottom: .4rem; color: #95eb27; font-size: .78rem; font-weight: 700; }
-@utility form-input { min-height: 2.8rem; width: 100%; border-radius: .375rem; border: 1px solid var(--color-input); background: var(--color-background); padding: .65rem .8rem; color: #ffffff; font-size: .875rem; &:focus { border-color: #95eb27; outline: 2px solid color-mix(in oklab, #95eb27 20%, transparent); } }
+@utility eyebrow { margin-bottom: .45rem; color: #48a65e; font-size: .68rem; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; }
+@utility form-label { display: block; margin-bottom: .4rem; color: #48a65e; font-size: .78rem; font-weight: 700; }
+@utility form-input { min-height: 2.8rem; width: 100%; border-radius: .375rem; border: 1px solid var(--color-input); background: var(--color-background); padding: .65rem .8rem; color: #ffffff; font-size: .875rem; &:focus { border-color: #48a65e; outline: 2px solid color-mix(in oklab, #48a65e 20%, transparent); } }
 @utility dark-grid { background-image: linear-gradient(color-mix(in oklab, var(--color-primary-foreground) 7%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in oklab, var(--color-primary-foreground) 7%, transparent) 1px, transparent 1px); background-size: 56px 56px; }
 
 @keyframes fade-in {
@@ -307,3 +307,41 @@
 .animate-fade-in-up {
   animation: fadeInUp 0.5s ease-out forwards;
 }
+
+@keyframes textShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-shimmer-text-light {
+  background: linear-gradient(
+    90deg,
+    #48a65e 0%,
+    #ffffff 45%,
+    #48a65e 55%,
+    #a2c2b0 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: textShimmer 3.5s linear infinite;
+}
+
+.animate-shimmer-text-dark {
+  background: linear-gradient(
+    90deg,
+    #072115 0%,
+    #10b981 40%,
+    #48a65e 50%,
+    #10b981 60%,
+    #072115 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: textShimmer 3.5s linear infinite;
+}
+
+

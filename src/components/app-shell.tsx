@@ -10,6 +10,7 @@ const primary = [
   { label: "Tracker", to: "/tracker", icon: Wrench },
   { label: "Result", to: "/result", icon: CircleGauge },
   { label: "History", to: "/history", icon: History },
+  { label: "Reports", to: "/reports", icon: FileText },
 ] as const;
 
 const intelligence = [
@@ -25,11 +26,11 @@ const reports = [
   ["Solar Investment", "/reports/solar"],
 ] as const;
 
-export function AppShell({ children, section }: { children: React.ReactNode; section?: "dashboard" | "reports" }) {
+export function AppShell({ children }: { children: React.ReactNode; section?: "dashboard" | "reports" }) {
   const [open, setOpen] = useState(false);
   const path = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
-  const sectionLinks = section === "reports" ? reports : intelligence;
+  const sectionLinks = intelligence;
 
   return (
     <div className="min-h-screen bg-[#f2f5f3] font-sans text-[#072115]">
@@ -43,8 +44,18 @@ export function AppShell({ children, section }: { children: React.ReactNode; sec
         </div>
 
         <div className="flex items-center gap-3">
+          {/* Profile Icon Button */}
+          <Link
+            to="/profile"
+            className="flex size-9 items-center justify-center rounded-full border border-[#17452d] bg-[#0c3120] text-zinc-300 hover:text-white hover:bg-[#0d3826] hover:border-[#48a65e]/40 transition-all"
+            aria-label="Factory Profile Setup"
+            title="Factory Profile & Setup"
+          >
+            <UserRound size={18} />
+          </Link>
+
           {/* Alert Button */}
-          <button className="relative flex size-9 items-center justify-center rounded-full border border-[#17452d] bg-[#0c3120] text-zinc-300 hover:text-white hover:bg-[#0d3826] hover:border-[#95eb27]/40 transition-all" aria-label="Alerts & Notifications">
+          <button className="relative flex size-9 items-center justify-center rounded-full border border-[#17452d] bg-[#0c3120] text-zinc-300 hover:text-white hover:bg-[#0d3826] hover:border-[#48a65e]/40 transition-all" aria-label="Alerts & Notifications">
             <Bell size={18} />
             <span className="absolute right-1.5 top-1.5 size-2 rounded-full bg-[#ef4444] ring-2 ring-[#072115]" />
           </button>
@@ -67,7 +78,7 @@ export function AppShell({ children, section }: { children: React.ReactNode; sec
           <div className="flex-1 overflow-y-auto p-4 space-y-6">
             <div>
               <p className="px-3 pb-2.5 text-[11px] font-extrabold uppercase tracking-widest text-[#7a9d88]">
-                {section === "reports" ? "REPORT CENTRE" : "INTELLIGENCE"}
+                INTELLIGENCE
               </p>
               <nav className="space-y-2">
                 {sectionLinks.map(([label, to], index) => {
@@ -79,11 +90,11 @@ export function AppShell({ children, section }: { children: React.ReactNode; sec
                       onClick={() => setOpen(false)}
                       className={`group relative flex items-center gap-3.5 rounded-xl px-3.5 py-2.5 text-xs font-bold transition-all duration-200 overflow-hidden ${
                         isActive
-                          ? "bg-[#11291b] text-white shadow-xs border-l-4 border-l-[#95eb27] border-y border-r border-[#1a3f28]"
-                          : "text-[#a2c2b0] hover:bg-[#0e2417] hover:text-white border-l-4 border-l-transparent hover:border-l-[#95eb27]/50"
+                          ? "bg-[#11291b] text-white shadow-xs border-l-4 border-l-[#48a65e] border-y border-r border-[#1a3f28]"
+                          : "text-[#a2c2b0] hover:bg-[#0e2417] hover:text-white border-l-4 border-l-transparent hover:border-l-[#48a65e]/50"
                       }`}
                     >
-                      <span className="font-extrabold text-[#95eb27] text-xs shrink-0">
+                      <span className="font-extrabold text-[#48a65e] text-xs shrink-0">
                         0{index + 1}
                       </span>
                       <span className="truncate">{label}</span>
@@ -105,11 +116,11 @@ export function AppShell({ children, section }: { children: React.ReactNode; sec
                       onClick={() => setOpen(false)}
                       className={`group relative flex items-center gap-3.5 rounded-xl px-3.5 py-2.5 text-xs font-bold transition-all duration-200 overflow-hidden ${
                         isActive
-                          ? "bg-[#11291b] text-white shadow-xs border-l-4 border-l-[#95eb27] border-y border-r border-[#1a3f28]"
-                          : "text-[#a2c2b0] hover:bg-[#0e2417] hover:text-white border-l-4 border-l-transparent hover:border-l-[#95eb27]/50"
+                          ? "bg-[#11291b] text-white shadow-xs border-l-4 border-l-[#48a65e] border-y border-r border-[#1a3f28]"
+                          : "text-[#a2c2b0] hover:bg-[#0e2417] hover:text-white border-l-4 border-l-transparent hover:border-l-[#48a65e]/50"
                       }`}
                     >
-                      <Icon size={16} className={`shrink-0 transition-colors ${isActive ? "text-[#95eb27]" : "text-[#8aa897] group-hover:text-[#95eb27]"}`} />
+                      <Icon size={16} className={`shrink-0 transition-colors ${isActive ? "text-[#48a65e]" : "text-[#8aa897] group-hover:text-[#48a65e]"}`} />
                       <span className="truncate">{label}</span>
                     </Link>
                   );
@@ -120,15 +131,15 @@ export function AppShell({ children, section }: { children: React.ReactNode; sec
 
           {/* Bottom User Profile Section */}
           <div className="border-t border-[#14422e] p-4">
-            <div className="flex items-center gap-3 px-1 mb-3">
-              <span className="grid size-9 place-items-center rounded-lg bg-[#95eb27] font-extrabold text-xs text-[#072115]">
+            <Link to="/profile" className="flex items-center gap-3 px-1 mb-3 cursor-pointer hover:opacity-90 transition-opacity">
+              <span className="grid size-9 place-items-center rounded-lg bg-[#48a65e] font-extrabold text-xs text-white">
                 AK
               </span>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-xs font-bold text-white">Arun Kumar</p>
                 <p className="truncate text-[11px] text-[#7a9d88]">Precision Works</p>
               </div>
-            </div>
+            </Link>
             <button
               className="flex w-full items-center gap-2 rounded-xl px-2 py-1.5 text-xs font-bold text-[#94b3a0] hover:text-white transition-colors"
               onClick={() => { signOut(); navigate({ to: "/login" }); }}
@@ -157,7 +168,7 @@ export function PageHeader({ eyebrow, title, description, action }: { eyebrow?: 
   return (
     <div className="mb-7 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4">
       <div className="min-w-0">
-        {eyebrow && <p className="text-xs font-extrabold uppercase tracking-wider text-[#10b981] mb-1">{eyebrow}</p>}
+        {eyebrow && <p className="text-xs font-extrabold uppercase tracking-wider text-[#48a65e] mb-1">{eyebrow}</p>}
         <h1 className="font-display text-3xl font-extrabold text-[#072115] sm:text-4xl tracking-tight">{title}</h1>
         <p className="mt-1.5 max-w-2xl text-sm font-medium text-[#557060]">{description}</p>
       </div>
@@ -176,15 +187,15 @@ export function KpiCard({ label, value, detail, tone = "default", featured = fal
         </div>
 
         <div className="flex items-center justify-between">
-          <span className="inline-flex items-center gap-1 rounded-full border border-[#17452d] bg-[#0c3120] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#95eb27]">
-            <span className="size-1 rounded-full bg-[#95eb27] animate-pulse" />
+          <span className="inline-flex items-center gap-1 rounded-full border border-[#17452d] bg-[#0c3120] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#48a65e]">
+            <span className="size-1 rounded-full bg-[#48a65e] animate-pulse" />
             {label}
           </span>
           <span className="text-[10px] font-semibold text-[#8ca897]">Live</span>
         </div>
 
         <p className="mt-3 font-display text-2xl font-extrabold tracking-tight text-white">{value}</p>
-        <p className="mt-1 text-[11px] font-semibold text-[#95eb27]">{detail}</p>
+        <p className="mt-1 text-[11px] font-semibold text-[#48a65e]">{detail}</p>
       </article>
     );
   }
@@ -209,12 +220,7 @@ export function KpiCard({ label, value, detail, tone = "default", featured = fal
 }
 
 export function DemoBadge() {
-  return (
-    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f0f4f1] px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#557060]">
-      <span className="size-1.5 rounded-full bg-[#10b981]" />
-      Verified Telemetry
-    </span>
-  );
+  return null;
 }
 
 export function ChartCard({ title, subtitle, children, className = "" }: { title: string; subtitle?: string; children: React.ReactNode; className?: string }) {

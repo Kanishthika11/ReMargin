@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AlertTriangle, CheckCircle2, IndianRupee, Lightbulb } from "lucide-react";
 import { useState } from "react";
-import { AppShell, DemoBadge, KpiCard, PageHeader } from "@/components/app-shell";
+import { AppShell, KpiCard, PageHeader } from "@/components/app-shell";
 import { EstimatedVsActualScoreChart } from "@/components/charts";
 
 export const Route = createFileRoute("/result")({
@@ -28,7 +28,6 @@ function ResultPage() {
         eyebrow="Latest analysis · 18 Sep 2026"
         title="Factory Efficiency Results"
         description="Verified inputs converted into estimated waste, cost impact and supported improvement actions."
-        action={<DemoBadge />}
       />
 
       {/* Single grid section containing all 6 KPI cards */}
@@ -46,7 +45,7 @@ function ResultPage() {
         <article className="panel bg-[#072115] border-[#17452d]">
           <div className="flex items-center justify-between">
             <div>
-              <p className="eyebrow text-[#95eb27]">Main cost impact</p>
+              <p className="eyebrow text-[#48a65e]">Main cost impact</p>
               <h2 className="font-display text-4xl font-bold text-white">₹9,600</h2>
             </div>
             <span className="grid size-14 place-items-center rounded-md bg-[#0c3120] text-warning border border-[#17452d]">
@@ -57,6 +56,7 @@ function ResultPage() {
             {[
               ["Energy-related loss", "₹1,600"],
               ["Scrap-related loss", "₹8,000"],
+              ["Estimated yearly amount", "₹1,15,200"],
             ].map(([a, b]) => (
               <div className="flex justify-between border-b border-[#17452d] pb-3 text-sm" key={a}>
                 <span className="text-[#a2c2b0]">{a}</span>
@@ -66,7 +66,7 @@ function ResultPage() {
           </div>
         </article>
         <article className="panel bg-[#072115] border-[#17452d]">
-          <p className="eyebrow text-[#95eb27]">Scrap wastage</p>
+          <p className="eyebrow text-[#48a65e]">Scrap wastage</p>
           <div className="grid grid-cols-2 gap-3.5">
             {[
               ["Input material", "500 kg EN8"],
@@ -84,23 +84,23 @@ function ResultPage() {
         </article>
         <article className="panel bg-[#072115] border-[#17452d] flex flex-col justify-between">
           <div>
-            <p className="eyebrow text-[#95eb27]">Estimated vs Actual</p>
+            <p className="eyebrow text-[#48a65e]">Estimated vs Actual</p>
             <h3 className="font-display text-lg font-bold text-white mb-2">Score Comparison</h3>
           </div>
           <div className="h-44 w-full my-auto">
             <EstimatedVsActualScoreChart />
           </div>
           <div className="flex justify-between border-t border-[#17452d] pt-3 text-xs text-[#a2c2b0]">
-            <span>Est: <strong className="text-[#10b981]">83.3%</strong></span>
-            <span>Act: <strong className="text-[#95eb27]">91.6%</strong></span>
-            <span>Variance: <strong className="text-[#95eb27]">+8.3%</strong></span>
+            <span>Est: <strong className="text-[#48a65e]">83.3%</strong></span>
+            <span>Act: <strong className="text-[#48a65e]">91.6%</strong></span>
+            <span>Variance: <strong className="text-[#48a65e]">+8.3%</strong></span>
           </div>
         </article>
       </section>
 
       <section className="mt-5 grid gap-5 xl:grid-cols-2">
         <article className="panel bg-[#072115] border-[#17452d]">
-          <h2 className="flex items-center gap-2 font-display text-xl font-bold text-[#95eb27]">
+          <h2 className="flex items-center gap-2 font-display text-xl font-bold text-[#48a65e]">
             <AlertTriangle size={20} className="text-warning" />
             Possible causes
           </h2>
@@ -117,8 +117,8 @@ function ResultPage() {
           </div>
         </article>
         <article className="panel bg-[#072115] border-[#17452d]">
-          <h2 className="flex items-center gap-2 font-display text-xl font-bold text-[#95eb27]">
-            <Lightbulb size={20} className="text-[#95eb27]" />
+          <h2 className="flex items-center gap-2 font-display text-xl font-bold text-[#48a65e]">
+            <Lightbulb size={20} className="text-[#48a65e]" />
             Recommended actions
           </h2>
           <div className="mt-5 space-y-3">
@@ -128,7 +128,7 @@ function ResultPage() {
               "Investigate the two shifts with elevated material scrap.",
             ].map((x) => (
               <p className="flex gap-2 text-sm text-white" key={x}>
-                <CheckCircle2 size={17} className="mt-0.5 shrink-0 text-[#95eb27]" />
+                <CheckCircle2 size={17} className="mt-0.5 shrink-0 text-[#48a65e]" />
                 {x}
               </p>
             ))}
@@ -139,7 +139,7 @@ function ResultPage() {
       <section className="panel mt-5 mb-20 lg:mb-0 bg-[#072115] border-[#17452d]">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="eyebrow text-[#95eb27]">Fix tracker</p>
+            <p className="eyebrow text-[#48a65e]">Fix tracker</p>
             <h2 className="font-display text-xl font-bold text-white">CNC-03 energy and maintenance review</h2>
           </div>
           <div className="flex gap-2">
@@ -153,16 +153,16 @@ function ResultPage() {
         </div>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <label>
-            <span className="form-label text-[#95eb27]">Corrective action</span>
-            <input className="form-input text-white bg-[#072115] border-[#17452d] focus:border-[#95eb27]" defaultValue="Inspect spindle load and complete scheduled service" />
+            <span className="form-label text-[#48a65e]">Corrective action</span>
+            <input className="form-input text-white bg-[#072115] border-[#17452d] focus:border-[#48a65e]" defaultValue="Inspect spindle load and complete scheduled service" />
           </label>
           <label>
-            <span className="form-label text-[#95eb27]">Action date</span>
-            <input className="form-input text-white bg-[#072115] border-[#17452d] focus:border-[#95eb27]" type="date" />
+            <span className="form-label text-[#48a65e]">Action date</span>
+            <input className="form-input text-white bg-[#072115] border-[#17452d] focus:border-[#48a65e]" type="date" />
           </label>
         </div>
         {done && (
-          <p className="mt-4 flex items-center gap-2 rounded-md bg-[#0c3120] border border-[#17452d] p-3 text-sm font-semibold text-[#95eb27]">
+          <p className="mt-4 flex items-center gap-2 rounded-md bg-[#0c3120] border border-[#17452d] p-3 text-sm font-semibold text-[#48a65e]">
             <CheckCircle2 size={17} />
             Action recorded. Future uploads will compare before and after performance.
           </p>

@@ -1,4 +1,4 @@
-import { CalendarDays, Download, Lightbulb, TrendingDown, Wrench } from "lucide-react";
+import { CalendarDays, Download, Lightbulb, Quote, TrendingDown, Wrench } from "lucide-react";
 import { AppShell, ChartCard, KpiCard, PageHeader } from "./app-shell";
 import { BaselineVsCurrentChart, ComparisonChart, CostVsCarbonChart, ExpectedVsEstimatedEnergyChart, ProductEmissionChart, ScopeChart, ScrapBarChart, TrendChart, YieldRadarChart } from "./charts";
 
@@ -70,14 +70,14 @@ function CarbonKpiCardsBlock() {
       {/* Total CO2e Featured Card */}
       <div className="relative overflow-hidden rounded-2xl bg-[#072115] p-5 text-white shadow-md border border-[#17452d]">
         <div className="flex items-center justify-between">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#17452d] bg-[#0c3120] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#95eb27]">
-            <span className="size-1.5 rounded-full bg-[#95eb27] animate-pulse" />
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#17452d] bg-[#0c3120] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#48a65e]">
+            <span className="size-1.5 rounded-full bg-[#48a65e] animate-pulse" />
             Total CO₂e
           </span>
           <span className="text-[10px] font-semibold text-[#8ca897]">Updated live</span>
         </div>
         <p className="mt-3 font-display text-3xl font-extrabold tracking-tight text-white">6.74 t</p>
-        <p className="mt-1 text-xs font-semibold text-[#95eb27]">↓ 8.2% from previous period</p>
+        <p className="mt-1 text-xs font-semibold text-[#48a65e]">↓ 8.2% from previous period</p>
       </div>
 
       {/* Scope 1 & Scope 2 Stacked Cards */}
@@ -87,14 +87,14 @@ function CarbonKpiCardsBlock() {
             <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#7a9d88]">Scope 1</span>
           </div>
           <p className="mt-2 font-display text-2xl font-extrabold text-[#072115]">1.21 t</p>
-          <p className="mt-0.5 text-[11px] font-medium text-[#10b981]">18% recorded</p>
+          <p className="mt-0.5 text-[11px] font-medium text-[#48a65e]">18% recorded</p>
         </div>
         <div className="rounded-xl border border-[#e1e8e2] bg-white p-4 shadow-xs">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#7a9d88]">Scope 2</span>
           </div>
           <p className="mt-2 font-display text-2xl font-extrabold text-[#072115]">5.53 t</p>
-          <p className="mt-0.5 text-[11px] font-medium text-[#10b981]">Electricity est.</p>
+          <p className="mt-0.5 text-[11px] font-medium text-[#48a65e]">Electricity est.</p>
         </div>
       </div>
 
@@ -105,14 +105,14 @@ function CarbonKpiCardsBlock() {
             <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#7a9d88]">Intensity</span>
           </div>
           <p className="mt-2 font-display text-2xl font-extrabold text-[#072115]">0.74 <span className="text-xs text-[#557060] font-normal">kg/unit</span></p>
-          <p className="mt-0.5 text-[11px] font-medium text-[#10b981]">↓ 5.4% per unit</p>
+          <p className="mt-0.5 text-[11px] font-medium text-[#48a65e]">↓ 5.4% per unit</p>
         </div>
         <div className="rounded-xl border border-[#e1e8e2] bg-white p-4 shadow-xs">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#7a9d88]">Period Change</span>
           </div>
           <p className="mt-2 font-display text-2xl font-extrabold text-[#072115]">-0.60 t</p>
-          <p className="mt-0.5 text-[11px] font-medium text-[#10b981]">Improvement</p>
+          <p className="mt-0.5 text-[11px] font-medium text-[#48a65e]">Improvement</p>
         </div>
       </div>
     </div>
@@ -125,14 +125,14 @@ function EnergyKpiCardsBlock() {
       {/* Featured Bimonthly Energy Consumption Dark Card */}
       <div className="relative overflow-hidden rounded-2xl bg-[#072115] p-4 text-white shadow-md border border-[#17452d]">
         <div className="flex items-center justify-between">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#17452d] bg-[#0c3120] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#95eb27]">
-            <span className="size-1.5 rounded-full bg-[#95eb27] animate-pulse" />
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#17452d] bg-[#0c3120] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#48a65e]">
+            <span className="size-1.5 rounded-full bg-[#48a65e] animate-pulse" />
             Bimonthly Consumption
           </span>
           <span className="text-[10px] font-semibold text-[#8ca897]">Updated live</span>
         </div>
         <p className="mt-2.5 font-display text-2xl font-extrabold tracking-tight text-white">15,680 kWh</p>
-        <p className="mt-0.5 text-[11px] font-semibold text-[#95eb27]">Bimonthly recorded sources</p>
+        <p className="mt-0.5 text-[11px] font-semibold text-[#48a65e]">Bimonthly recorded sources</p>
       </div>
 
       {/* Daily Average & Peak Consumption Stacked Cards */}
@@ -162,6 +162,24 @@ function EnergyKpiCardsBlock() {
           <p className="mt-0.5 text-[10px] font-medium text-[#ef4444]">2,400 kWh excess</p>
         </div>
       </div>
+    </div>
+  );
+}
+
+function EnergyQuoteBanner() {
+  return (
+    <div className="mt-10 py-6 text-center max-w-4xl mx-auto px-4">
+      <blockquote className="relative font-display text-2xl sm:text-3xl lg:text-4xl font-black leading-snug tracking-tight">
+        <span className="text-6xl sm:text-7xl lg:text-8xl text-[#10b981] font-black font-display align-middle leading-none mr-2 select-none">
+          “
+        </span>
+        <span className="animate-shimmer-text-dark font-black">
+          The energy you save today is the cost you avoid tomorrow
+        </span>
+        <span className="text-6xl sm:text-7xl lg:text-8xl text-[#10b981] font-black font-display align-middle leading-none ml-2 select-none">
+          ”
+        </span>
+      </blockquote>
     </div>
   );
 }
@@ -237,6 +255,9 @@ export function DashboardPage({ kind }: { kind: keyof typeof content }) {
         </div>
       ) : kind === "energy" ? (
         <div className="space-y-6">
+          {/* Quote placed below Energy Monitoring header */}
+          <EnergyQuoteBanner />
+
           {/* First Div: Bimonthly energy consumption graph */}
           <ChartCard 
             title="Bimonthly energy consumption" 
@@ -306,10 +327,6 @@ export function DashboardPage({ kind }: { kind: keyof typeof content }) {
               <p className="font-display text-3xl font-extrabold text-[#991b1b]">₹9,600 estimated loss</p>
               <p className="mt-1 text-sm font-medium text-[#b91c1c]">Based on 1,200 kWh excess consumption at the verified tariff.</p>
             </div>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#991b1b]">
-              <span className="size-1.5 rounded-full bg-[#ef4444]" />
-              Illustrative estimate
-            </span>
           </div>
         </div>
       )}
