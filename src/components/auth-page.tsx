@@ -62,7 +62,7 @@ export function AuthPage({ title, subtitle, children }: { title: string; subtitl
       </section>
       <section className="flex items-center justify-center px-4 py-12 sm:px-8 bg-[#f4f9e8] text-zinc-900 relative z-10">
         <div className="w-full max-w-lg">
-          <Link to="/" className="mb-10 inline-flex lg:hidden"><ReMarginLogo /></Link>
+          <div className="mb-10 inline-flex lg:hidden"><ReMarginLogo /></div>
           <p className="text-xs font-extrabold uppercase tracking-widest text-[#5c9c14] mb-2">ReMargin workspace</p>
           <h1 className="font-display text-3xl font-extrabold text-[#1c3520] tracking-tight">{title}</h1>
           <p className="mt-2 text-sm font-medium text-[#3a543e]">{subtitle}</p>

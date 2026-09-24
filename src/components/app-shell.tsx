@@ -74,12 +74,33 @@ export function PageHeader({ eyebrow, title, description, action }: { eyebrow?: 
   return <div className="mb-7 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4"><div className="min-w-0">{eyebrow && <p className="eyebrow">{eyebrow}</p>}<h1 className="font-display text-3xl font-bold text-foreground sm:text-4xl">{title}</h1><p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base">{description}</p></div>{action && <div className="shrink-0">{action}</div>}</div>;
 }
 
-export function KpiCard({ label, value, detail, tone = "default" }: { label: string; value: string; detail: string; tone?: "default" | "success" | "warning" }) {
-  return <article className={`metric-card metric-${tone}`}><div className="flex items-start justify-between"><p className="text-xs font-semibold uppercase text-muted-foreground">{label}</p><span className={`status-dot status-${tone}`} /></div><p className="mt-4 font-display text-3xl font-bold text-foreground">{value}</p><p className="mt-2 text-xs text-muted-foreground">{detail}</p></article>;
+export function KpiCard({ label, value, detail, tone = "default", featured = false, className = "" }: { label: string; value: string; detail: string; tone?: "default" | "success" | "warning"; featured?: boolean; className?: string }) {
+  if (featured) {
+    return (
+      <article className={`panel border-transparent bg-primary text-primary-foreground ${className}`}>
+        <div className="flex items-start justify-between">
+          <p className="text-xs font-semibold uppercase text-primary-foreground/80">{label}</p>
+          <span className={`status-dot bg-background shadow-[0_0_8px_rgba(255,255,255,0.5)]`} />
+        </div>
+        <p className="mt-4 font-display text-3xl font-bold">{value}</p>
+        <p className="mt-2 text-xs text-primary-foreground/80">{detail}</p>
+      </article>
+    );
+  }
+  return (
+    <article className={`metric-card metric-${tone} ${className}`}>
+      <div className="flex items-start justify-between">
+        <p className="text-xs font-semibold uppercase text-muted-foreground">{label}</p>
+        <span className={`status-dot status-${tone}`} />
+      </div>
+      <p className="mt-4 font-display text-3xl font-bold text-foreground">{value}</p>
+      <p className="mt-2 text-xs text-muted-foreground">{detail}</p>
+    </article>
+  );
 }
 
 export function DemoBadge() { return <span className="demo-badge">Illustrative data</span>; }
 
-export function ChartCard({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
-  return <article className="panel"><div className="mb-5 flex items-start justify-between gap-3"><div><h2 className="font-display text-lg font-bold">{title}</h2>{subtitle && <p className="mt-1 text-xs text-muted-foreground">{subtitle}</p>}</div><DemoBadge /></div><div className="h-64">{children}</div></article>;
+export function ChartCard({ title, subtitle, children, className = "" }: { title: string; subtitle?: string; children: React.ReactNode; className?: string }) {
+  return <article className={`panel ${className}`}><div className="mb-5 flex items-start justify-between gap-3"><div><h2 className="font-display text-lg font-bold">{title}</h2>{subtitle && <p className="mt-1 text-xs text-muted-foreground">{subtitle}</p>}</div><DemoBadge /></div><div className="h-64">{children}</div></article>;
 }

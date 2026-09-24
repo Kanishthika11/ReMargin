@@ -8,4 +8,67 @@ const content = {
   energy: { title:"Energy Monitoring", description:"See consumption, peak demand and the monetary cost of avoidable energy use.", kpis:[["Period consumption","7,840 kWh","All recorded sources","default"],["Daily average","261 kWh","30-day average","default"],["Peak consumption","418 kWh","Highest recorded day","warning"],["Energy cost","₹66,640","At verified tariff","default"],["Estimated ₹ waste","₹9,600","1,200 kWh excess","warning"]], charts:[["Daily energy consumption","Actual kWh trend","energy"],["Actual vs ideal energy","Illustrative benchmark comparison","comparison"],["Shift-level consumption","Recorded shift totals","energy"],["Machine-level consumption","Allocated energy estimate","comparison"]]},
 } as const;
 
-export function DashboardPage({ kind }: { kind: keyof typeof content }) { const page=content[kind]; return <AppShell section="dashboard"><PageHeader eyebrow="Precision Works India" title={page.title} description={page.description} action={<div className="flex gap-2"><button className="button-secondary"><CalendarDays size={15}/>Apr–Sep 2026</button><button className="button-primary hidden sm:inline-flex"><Download size={15}/>Export</button></div>}/><div className="mb-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">{page.kpis.map(([a,b,c,d])=><KpiCard key={a} label={a} value={b} detail={c} tone={d}/>)}</div><div className="grid gap-5 xl:grid-cols-2">{page.charts.map(([a,b,c])=><ChartCard key={a} title={a} subtitle={b}>{c==="scope"?<ScopeChart/>:c==="comparison"?<ComparisonChart/>:<TrendChart kind={c}/>}</ChartCard>)}</div>{kind==="sustainability"&&<section className="mt-6"><h2 className="font-display text-xl font-bold">Improvement Opportunities</h2><div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">{[[Lightbulb,"High energy usage","CNC-02 is 12% above its recent baseline."],[TrendingDown,"Excess scrap","Milling scrap increased on two recent shifts."],[Wrench,"Maintenance link","CNC-03 is overdue and shows elevated consumption."],[Lightbulb,"Potential savings","Reviewing three actions may recover ₹18,400/month."]].map(([Icon,t,d])=>{const I=Icon as typeof Lightbulb;return <article className="panel" key={t as string}><I className="text-primary" size={20}/><h3 className="mt-5 font-bold">{t as string}</h3><p className="mt-2 text-sm text-muted-foreground">{d as string}</p></article>})}</div></section>}{kind==="energy"&&<div className="mt-6 rounded-md border border-warning/30 bg-warning-soft p-6"><p className="eyebrow text-warning">Potential Energy Loss</p><div className="flex flex-wrap items-end justify-between gap-5"><div><p className="font-display text-4xl font-bold">₹9,600 estimated loss</p><p className="mt-2 text-sm text-muted-foreground">Based on 1,200 kWh excess consumption at the verified tariff.</p></div><span className="demo-badge">Illustrative estimate</span></div></div>}<p className="mt-6 pb-20 text-right text-xs text-muted-foreground lg:pb-0">Last updated 22 Sep 2026, 07:32 IST</p></AppShell> }
+export function DashboardPage({ kind }: { kind: keyof typeof content }) { 
+  const page=content[kind]; 
+  return (
+    <AppShell section="dashboard">
+      <PageHeader 
+        eyebrow="Precision Works India" 
+        title={page.title} 
+        description={page.description} 
+        action={
+          <div className="flex gap-2">
+            <button className="button-secondary"><CalendarDays size={15}/>Apr–Sep 2026</button>
+            <button className="button-primary hidden sm:inline-flex"><Download size={15}/>Export</button>
+          </div>
+        }
+      />
+      <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {page.kpis.map(([a,b,c,d], index) => (
+          <KpiCard 
+            key={a} 
+            label={a} 
+            value={b} 
+            detail={c} 
+            tone={d} 
+            featured={index === 0} 
+            className={index === 0 ? "lg:col-span-2" : "lg:col-span-1"}
+          />
+        ))}
+      </div>
+      <div className="grid gap-5 lg:grid-cols-3">
+        {page.charts.map(([a,b,c], index) => (
+          <ChartCard 
+            key={a} 
+            title={a} 
+            subtitle={b}
+            className={index === 0 ? "lg:col-span-2" : "lg:col-span-1"}
+          >
+            {c==="scope"?<ScopeChart/>:c==="comparison"?<ComparisonChart/>:<TrendChart kind={c}/>}
+          </ChartCard>
+        ))}
+      </div>
+      {kind==="sustainability" && (
+        <section className="mt-6">
+          <h2 className="font-display text-xl font-bold">Improvement Opportunities</h2>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {[[Lightbulb,"High energy usage","CNC-02 is 12% above its recent baseline."],[TrendingDown,"Excess scrap","Milling scrap increased on two recent shifts."],[Wrench,"Maintenance link","CNC-03 is overdue and shows elevated consumption."],[Lightbulb,"Potential savings","Reviewing three actions may recover ₹18,400/month."]].map(([Icon,t,d])=>{const I=Icon as typeof Lightbulb;return <article className="panel" key={t as string}><I className="text-primary" size={20}/><h3 className="mt-5 font-bold">{t as string}</h3><p className="mt-2 text-sm text-muted-foreground">{d as string}</p></article>})}
+          </div>
+        </section>
+      )}
+      {kind==="energy" && (
+        <div className="mt-6 rounded-md border border-warning/30 bg-warning-soft p-6">
+          <p className="eyebrow text-warning">Potential Energy Loss</p>
+          <div className="flex flex-wrap items-end justify-between gap-5">
+            <div>
+              <p className="font-display text-4xl font-bold">₹9,600 estimated loss</p>
+              <p className="mt-2 text-sm text-muted-foreground">Based on 1,200 kWh excess consumption at the verified tariff.</p>
+            </div>
+            <span className="demo-badge">Illustrative estimate</span>
+          </div>
+        </div>
+      )}
+      <p className="mt-6 pb-20 text-right text-xs text-muted-foreground lg:pb-0">Last updated 22 Sep 2026, 07:32 IST</p>
+    </AppShell> 
+  );
+}

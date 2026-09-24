@@ -141,11 +141,26 @@ const intelligenceLayers = [
   },
 ];
 
+const slogans = [
+  "Track Energy Usage & ₹ Loss",
+  "Reduce Waste & Improve Yield",
+  "Track Fixes & Verify Efficiency",
+  "Automate ESG, BRSR & Carbon Reporting"
+];
+
 function LandingPage() {
   const [activeGap, setActiveGap] = useState("01");
   const [activeFeature, setActiveFeature] = useState(0);
   const [activeNovelty, setActiveNovelty] = useState(0);
   const [activeIntelligence, setActiveIntelligence] = useState(0);
+  const [activeSlogan, setActiveSlogan] = useState(0);
+
+  useEffect(() => {
+    const sloganTimer = setInterval(() => {
+      setActiveSlogan((prev) => (prev + 1) % slogans.length);
+    }, 3000);
+    return () => clearInterval(sloganTimer);
+  }, []);
 
   useEffect(() => {
     const featureTimer = setInterval(() => {
@@ -197,9 +212,9 @@ function LandingPage() {
         <div className="mx-auto flex max-w-[90rem] flex-col-reverse lg:flex-row items-center gap-12 px-6 lg:px-12 w-full">
           {/* Left Content */}
           <div className="flex-1 space-y-8 z-10 py-12 lg:py-0">
-            <h1 className="font-display text-5xl font-bold leading-[1.1] sm:text-7xl lg:text-[5.5rem] tracking-tight">
-              Where <span className="text-primary">Sustainability</span><br/>
-              and <span className="text-primary">Factory<br/>Strategy</span> Meet
+            <h1 className="font-display text-4xl font-bold leading-[1.1] sm:text-5xl lg:text-6xl tracking-tight">
+              From Invisible Loss to Intelligent Gain<br/>
+              <span key={activeSlogan} className="text-primary animate-fade-in-up inline-block mt-2 text-2xl sm:text-3xl lg:text-4xl">{slogans[activeSlogan]}</span>
             </h1>
             <p className="max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
               Know your factory energy—precisely.<br/>
@@ -249,7 +264,7 @@ function LandingPage() {
         
         <div className="relative z-10 mx-auto flex max-w-[90rem] flex-col lg:flex-row items-start gap-16 px-6 lg:px-12">
           {/* Left Side: Graph Card */}
-          <div className="lg:w-1/2 flex items-center lg:sticky lg:top-40 h-fit pb-16 lg:pb-0 z-20">
+          <div className="lg:w-1/2 flex items-center lg:sticky lg:top-64 h-fit pb-16 lg:pb-0 z-20">
             <div className="glass-card p-8 lg:p-10 rounded-3xl w-full border border-primary/20 shadow-[0_0_50px_rgba(var(--color-primary),0.05)] bg-card/80">
                <div className="flex justify-between items-center mb-8">
                  <div className="flex items-center gap-3">
