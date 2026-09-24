@@ -246,3 +246,41 @@
 @utility animate-bg-drift {
   animation: bg-drift 8s ease-in-out infinite;
 }
+
+.auth-form-container {
+  color: #111827;
+}
+
+.auth-form-container .form-label {
+  color: #1c3520;
+  font-weight: 700;
+}
+
+.auth-form-container .form-input {
+  background-color: #ffffff;
+  border-color: #d1d5db;
+  color: #111827;
+}
+
+.auth-form-container .form-input::placeholder {
+  color: #9ca3af;
+}
+
+.auth-form-container .form-input:focus {
+  border-color: #5c9c14;
+  outline-color: #5c9c14;
+}
+
+.auth-form-container p {
+  color: #374151;
+}
+
+.auth-form-container button.button-primary {
+  background-color: #1c3520;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.auth-form-container button.button-primary:hover {
+  background-color: #274c2d;
+}

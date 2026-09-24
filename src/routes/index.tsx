@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowRight, BarChart3, Camera, CircleDollarSign, Cloud, Factory, FileCheck2, Gauge, Leaf, Recycle, ShieldCheck, SunMedium, Wrench, ArrowUpRight } from "lucide-react";
-import heroImage from "@/assets/floating_green_island.jpg";
+import heroImage from "@/assets/sustainable_city_globe.jpg";
 import greenGlobeImage from "@/assets/green_globe.png";
 import { ReMarginLogo } from "@/components/remargin-logo";
 import { ParticleSphere } from "@/components/particle-sphere";
@@ -29,7 +29,7 @@ function LandingPage() {
 
   useEffect(() => {
     const featureTimer = setInterval(() => {
-      setActiveFeature((prev) => (prev + 1) % 7);
+      setActiveFeature((prev) => (prev + 1) % 9);
     }, 4000);
     return () => clearInterval(featureTimer);
   }, []);
@@ -93,7 +93,7 @@ function LandingPage() {
 
           {/* Right Image (Floating Island) */}
           <div className="flex-1 relative w-full h-[50vh] lg:h-[80vh] flex items-center justify-center">
-            <div className="relative w-full max-w-2xl animate-float">
+            <div className="relative w-full max-w-lg animate-float">
               <img src={heroImage} alt="Floating green island" className="w-full h-auto object-contain drop-shadow-2xl mix-blend-screen opacity-90 rounded-[3rem] border border-primary/20" />
               
               {/* Stats Glass Card */}
@@ -315,32 +315,74 @@ function LandingPage() {
           </div>
         </div>
         
-        {/* Remaining Features */}
-        <div className="mt-16 pt-16 border-t border-border/30 flex justify-center gap-4 flex-wrap">
-          {features.slice(7).map(([Icon,title]) => (
-            <div key={title} className="glass-card p-4 rounded-2xl flex items-center text-center gap-3 hover:border-primary/50 transition-colors cursor-default min-w-[200px]">
-              <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                <Icon className="text-primary" size={16} />
-              </div>
-              <p className="text-xs font-bold leading-tight">{title}</p>
-            </div>
-          ))}
+        {/* Remaining Features (Full size cards adjacent to each other) */}
+        <div className="mt-8 grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
+          {features.slice(7).map(([Icon,title,text], idx) => {
+            const actualIdx = idx + 7;
+            return (
+              <article 
+                key={title} 
+                className={`glass-card p-8 rounded-3xl transition-all duration-500 border group relative overflow-hidden ${activeFeature === actualIdx ? 'border-primary/60 scale-[1.02] shadow-[0_0_30px_rgba(var(--color-primary),0.15)] bg-gradient-to-t from-primary/10 to-card' : 'border-primary/20 bg-gradient-to-t from-card/80 to-card hover:border-primary/50 hover:scale-[1.02]'}`}
+              >
+                <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className={`absolute -inset-1 bg-gradient-to-b from-primary/30 to-primary/0 blur-xl transition-opacity duration-700 ${activeFeature === actualIdx ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}></div>
+                
+                <div className={`h-12 w-12 rounded-xl border flex items-center justify-center mb-6 relative z-10 transition-colors ${activeFeature === actualIdx ? 'bg-primary/30 border-primary/50' : 'bg-primary/10 border-primary/30 group-hover:bg-primary/20'}`}>
+                  <Icon className="text-primary" size={20} />
+                </div>
+                <h3 className="font-display text-xl font-bold text-foreground mb-3 relative z-10">{title}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground relative z-10">{text}</p>
+                
+                <div className="mt-8 relative z-10">
+                  <a href="#" className="inline-flex items-center gap-2 text-xs font-bold text-primary hover:text-foreground transition-colors uppercase tracking-wider">
+                    <ArrowUpRight size={14} /> Discover module
+                  </a>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 
-      <section id="novelty" className="bg-primary py-32 text-primary-foreground relative overflow-hidden">
-        <div className="absolute inset-0 dark-grid opacity-20"></div>
+      <section id="novelty" className="bg-[#f4f9e8] py-32 text-zinc-900 relative overflow-hidden">
         <div className="mx-auto max-w-[90rem] px-6 lg:px-12 relative z-10">
-          <SectionIntro dark kicker="The ReMargin difference" title="What Makes ReMargin Different?" text="ReMargin connects energy, waste, money, maintenance, carbon and compliance in one workflow." />
-          <div className="mt-16 grid overflow-hidden rounded-3xl border border-primary-foreground/20 lg:grid-cols-2">
-            <Comparison title="Traditional approach" items={["kWh numbers", "Disconnected bills", "Manual reports", "Technical data", "Reactive maintenance", "Separate sustainability work"]} />
-            <Comparison accent title="ReMargin" items={["₹ impact", "Unified factory data", "Automated reports", "Actionable insights", "Fix verification", "Sustainability + financial analysis"]} />
+          <div className="max-w-3xl">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#5c9c14] mb-4">The ReMargin difference</p>
+            <h2 className="font-display text-4xl font-bold sm:text-5xl tracking-tight text-[#1c3520]">What Makes ReMargin Different?</h2>
+            <p className="mt-6 text-lg leading-relaxed text-[#3a543e]">ReMargin connects energy, waste, money, maintenance, carbon and compliance in one workflow.</p>
           </div>
+          
+          <div className="mt-16 grid overflow-hidden rounded-3xl border border-[#1c3520]/20 shadow-xl lg:grid-cols-2">
+            <div className="p-10 bg-white/90 text-zinc-900">
+              <p className="text-xs font-bold uppercase tracking-widest text-zinc-500">Traditional approach</p>
+              <ul className="mt-8 grid gap-5 sm:grid-cols-2">
+                {["kWh numbers", "Disconnected bills", "Manual reports", "Technical data", "Reactive maintenance", "Separate sustainability work"].map(item => (
+                  <li key={item} className="flex items-center gap-3 text-sm font-bold text-zinc-800">
+                    <span className="flex-shrink-0 size-2 rounded-full bg-zinc-400"/>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            <div className="p-10 bg-[#1c3520] text-white">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#a3e635]">ReMargin</p>
+              <ul className="mt-8 grid gap-5 sm:grid-cols-2">
+                {["₹ impact", "Unified factory data", "Automated reports", "Actionable insights", "Fix verification", "Sustainability + financial analysis"].map(item => (
+                  <li key={item} className="flex items-center gap-3 text-sm font-bold text-white">
+                    <span className="flex-shrink-0 size-2 rounded-full bg-[#a3e635]"/>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          
           <div className="mt-16 flex flex-wrap items-center justify-center gap-4">
             {["MEASURE", "UNDERSTAND", "QUANTIFY", "ACT", "VERIFY", "REPORT"].map((item,i) => (
               <div key={item} className="flex items-center gap-4">
-                <span className="rounded-full border border-primary-foreground/30 bg-primary-foreground/10 px-5 py-2.5 text-xs font-bold tracking-wider">{item}</span>
-                {i<5 && <ArrowRight size={16} className="text-primary-foreground/50" />}
+                <span className="rounded-full border border-[#1c3520]/20 bg-[#1c3520]/10 px-5 py-2.5 text-xs font-bold text-[#1c3520] tracking-wider">{item}</span>
+                {i<5 && <ArrowRight size={16} className="text-[#1c3520]/50" />}
               </div>
             ))}
           </div>
