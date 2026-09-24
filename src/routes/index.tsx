@@ -78,9 +78,16 @@ const noveltyItems = [
 const intelligenceLayers = [
   {
     id: "carbon",
-    title: "Carbon Emission Tracking",
+    num: "01",
+    title: "CARBON EMISSION TRACKING",
     eyebrow: "Scope 1 & 2 Intelligence",
-    description: "Track factory carbon emissions, Scope 1 vs Scope 2 splits, and unit intensity over time with automated compliance telemetry.",
+    headline: "Real-Time Scope 1 & 2 Telemetry That Drives Factory Carbon Reduction",
+    description: "ReMargin converts energy and fuel telemetry directly into verified carbon intensity metrics. Track emissions over time, identify peak contributors, and export compliance-ready sustainability reports.",
+    checklist: [
+      "Scope 1 Direct Generator & Combustion Telemetry",
+      "Scope 2 Power Grid Electricity Carbon Analytics",
+      "Per-Unit Carbon Intensity & ESG Compliance Exports"
+    ],
     tags: ["CO₂e", "Scope 1 & 2", "Emissions trend", "Intensity"],
     icon: Leaf,
     route: "/dashboard/carbon",
@@ -99,9 +106,16 @@ const intelligenceLayers = [
   },
   {
     id: "sustainability",
-    title: "Sustainability Analytics",
+    num: "02",
+    title: "SUSTAINABILITY ANALYTICS",
     eyebrow: "Yield & Cost Intelligence",
-    description: "Connect energy efficiency, material scrap, usable output yield, and recovered costs into one practical operating dashboard.",
+    headline: "Connect Energy Efficiency, Material Scrap & Cost Recovery in One Unified View",
+    description: "Energy, scrap material, and machine performance shouldn't live in separate spreadsheets. ReMargin links raw input material to final yield, calculating exact monetary loss and verified savings.",
+    checklist: [
+      "Unified Yield & Material Scrap Operating Picture",
+      "Financial Loss Calculations for Material Scrap",
+      "Verified Corrective Fix Tracker with Post-Fix ROI"
+    ],
     tags: ["Efficiency", "Scrap & yield", "Waste trends", "Improvements"],
     icon: Recycle,
     route: "/dashboard/sustainability",
@@ -120,9 +134,16 @@ const intelligenceLayers = [
   },
   {
     id: "energy",
-    title: "Energy Monitoring",
+    num: "03",
+    title: "ENERGY MONITORING",
     eyebrow: "Telemetry & Waste Intelligence",
-    description: "Monitor real-time consumption, peak usage spikes, and monetary cost of avoidable energy waste across factory machines.",
+    headline: "Real-Time Telemetry & Avoidable Monetary Waste Detection Across CNC Machines",
+    description: "Monitor live kWh consumption, peak demand spikes, and machine idle waste. ReMargin translates excess energy usage directly into monetary cost alerts so factory teams can act immediately.",
+    checklist: [
+      "Sub-meter & Photo OCR Ingestion for 100% Accuracy",
+      "Peak Demand & Machine Idle Waste Detection Alerts",
+      "Direct Rupee Cost Tied to Excess kWh Consumption"
+    ],
     tags: ["Meter readings", "Peak usage", "₹ waste", "Machine insights"],
     icon: BarChart3,
     route: "/dashboard/energy",
@@ -183,6 +204,36 @@ function LandingPage() {
 
     ["01", "02", "03"].forEach((id) => {
       const el = document.getElementById(`gap-${id}`);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  // IntersectionObserver for right column scrollable items updating left sticky menu
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idxAttr = entry.target.getAttribute("data-intel-index");
+            if (idxAttr !== null) {
+              const idx = parseInt(idxAttr, 10);
+              if (!isNaN(idx)) {
+                setActiveIntelligence(idx);
+              }
+            }
+          }
+        });
+      },
+      {
+        rootMargin: "-30% 0px -30% 0px",
+        threshold: 0.2,
+      }
+    );
+
+    intelligenceLayers.forEach((_, idx) => {
+      const el = document.getElementById(`intel-scroll-item-${idx}`);
       if (el) observer.observe(el);
     });
 
@@ -534,13 +585,13 @@ function LandingPage() {
         </div>
       </section>
 
-      <section id="insights" className="bg-[#080c0a] border-y border-border/40 py-28 text-white relative overflow-hidden">
+      <section id="insights" className="bg-[#080c0a] border-y border-border/40 py-28 text-white relative">
         <div className="mx-auto max-w-[90rem] px-6 lg:px-12 relative z-10">
           {/* Top Header matching Auraform UI */}
-          <div className="mb-14">
+          <div className="mb-16">
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-primary mb-4">
               <span className="size-2 rounded-full bg-primary animate-pulse" />
-              FEATURES
+              FEATURES SHOWCASE
             </div>
             <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white max-w-4xl">
               See What ReMargin AI Can Do for You
@@ -550,187 +601,223 @@ function LandingPage() {
             </p>
           </div>
 
-          {/* Grid Layout: Left Tabs Sidebar, Right Dashboard Preview Window */}
-          <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-8 items-start">
-            {/* Left Vertical Tab List */}
-            <div className="space-y-3">
+          {/* Grid Layout: Constant/Sticky Left Menu + Scrollable Right Dashboards */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start relative">
+            {/* LEFT SIDE: Constant Sticky Menu (span 3 columns) */}
+            <div className="hidden lg:block lg:col-span-3 sticky top-36 space-y-6 self-start border-l border-zinc-800/80 pl-6 z-20">
               {intelligenceLayers.map((layer, idx) => {
                 const isActive = activeIntelligence === idx;
-                const Icon = layer.icon;
                 return (
                   <button
                     key={layer.id}
-                    onClick={() => setActiveIntelligence(idx)}
-                    onMouseEnter={() => setActiveIntelligence(idx)}
-                    className={`w-full text-left p-6 rounded-2xl transition-all duration-300 border relative group cursor-pointer ${
-                      isActive
-                        ? "border-primary/50 bg-zinc-900/90 shadow-[0_0_30px_rgba(180,246,60,0.1)] text-white"
-                        : "border-zinc-800/80 bg-zinc-950/40 hover:bg-zinc-900/50 hover:border-zinc-700 text-zinc-400"
+                    onClick={() => {
+                      setActiveIntelligence(idx);
+                      document.getElementById(`intel-scroll-item-${idx}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }}
+                    className={`w-full text-left py-2.5 flex items-center justify-between text-xs font-mono font-extrabold uppercase tracking-widest transition-all duration-300 group cursor-pointer ${
+                      isActive ? "text-white scale-105" : "text-zinc-500 hover:text-zinc-300"
                     }`}
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <span
-                          className={`size-2.5 rounded-full transition-all ${
-                            isActive ? "bg-[#b4f63c] shadow-[0_0_10px_#b4f63c]" : "bg-zinc-700"
-                          }`}
-                        />
-                        <h3
-                          className={`font-display text-sm lg:text-base font-extrabold uppercase tracking-wider ${
-                            isActive ? "text-white" : "text-zinc-400"
-                          }`}
-                        >
-                          {layer.title}
-                        </h3>
-                      </div>
-                      <Icon size={18} className={isActive ? "text-[#b4f63c]" : "text-zinc-600"} />
-                    </div>
-
-                    {isActive && (
-                      <div className="mt-4 space-y-4 animate-fade-in">
-                        <p className="text-xs leading-relaxed text-zinc-300 font-medium">
-                          {layer.description}
-                        </p>
-                        <div className="flex flex-wrap gap-1.5 pt-1">
-                          {layer.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#b4f63c]/15 text-[#b4f63c] border border-[#b4f63c]/30"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+                    <span>{layer.title}</span>
+                    <span
+                      className={`size-2.5 rounded-full transition-all duration-300 ${
+                        isActive
+                          ? "bg-[#b4f63c] shadow-[0_0_12px_#b4f63c] scale-125"
+                          : "bg-zinc-700 opacity-40 group-hover:opacity-80"
+                      }`}
+                    />
                   </button>
                 );
               })}
             </div>
 
-            {/* Right Window: Sleek macOS App Dashboard Frame */}
-            {(() => {
-              const activeLayer = intelligenceLayers[activeIntelligence];
-              return (
-                <div className="relative">
-                  {/* Ambient Glow */}
-                  <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 via-emerald-500/10 to-primary/20 rounded-3xl blur-3xl opacity-60 pointer-events-none" />
+            {/* Mobile Horizontal Sticky Header Bar */}
+            <div className="lg:hidden sticky top-20 z-20 py-3 bg-[#080c0a]/95 backdrop-blur-md flex items-center gap-2 overflow-x-auto border-b border-zinc-800/80 mb-6">
+              {intelligenceLayers.map((layer, idx) => {
+                const isActive = activeIntelligence === idx;
+                return (
+                  <button
+                    key={layer.id}
+                    onClick={() => {
+                      setActiveIntelligence(idx);
+                      document.getElementById(`intel-scroll-item-${idx}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }}
+                    className={`whitespace-nowrap px-4 py-2 rounded-full text-xs font-extrabold transition-all shrink-0 cursor-pointer ${
+                      isActive
+                        ? "bg-[#b4f63c] text-black shadow-[0_0_15px_rgba(180,246,60,0.4)]"
+                        : "bg-zinc-900 text-zinc-400 hover:text-white"
+                    }`}
+                  >
+                    {layer.num} {layer.title}
+                  </button>
+                );
+              })}
+            </div>
 
-                  <div className="relative rounded-3xl border border-zinc-800/90 bg-zinc-950/95 shadow-2xl overflow-hidden backdrop-blur-xl">
-                    {/* Window Title Bar */}
-                    <div className="flex items-center justify-between px-5 py-3.5 border-b border-zinc-800/80 bg-zinc-900/60">
-                      <div className="flex items-center gap-2">
-                        <span className="size-3 rounded-full bg-[#ff5f56]" />
-                        <span className="size-3 rounded-full bg-[#ffbd2e]" />
-                        <span className="size-3 rounded-full bg-[#27c93f]" />
+            {/* RIGHT SIDE: Scrollable Dashboards & Info Cards (span 9 columns) */}
+            <div className="lg:col-span-9 space-y-36">
+              {intelligenceLayers.map((layer, idx) => {
+                return (
+                  <div
+                    key={layer.id}
+                    id={`intel-scroll-item-${idx}`}
+                    data-intel-index={idx}
+                    className="scroll-mt-36 space-y-12"
+                  >
+                    {/* Dashboard Frame (matching our website dashboard graphics & live charts) */}
+                    <div className="relative group">
+                      {/* Ambient Glow */}
+                      <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 via-emerald-500/10 to-primary/20 rounded-3xl blur-3xl opacity-60 group-hover:opacity-90 transition-opacity pointer-events-none" />
+
+                      <div className="relative rounded-3xl border border-zinc-800/90 bg-zinc-950/95 shadow-2xl overflow-hidden backdrop-blur-xl">
+                        {/* macOS Window Title Bar */}
+                        <div className="flex items-center justify-between px-5 py-3.5 border-b border-zinc-800/80 bg-zinc-900/60">
+                          <div className="flex items-center gap-2">
+                            <span className="size-3 rounded-full bg-[#ff5f56]" />
+                            <span className="size-3 rounded-full bg-[#ffbd2e]" />
+                            <span className="size-3 rounded-full bg-[#27c93f]" />
+                          </div>
+
+                          <div className="flex items-center gap-2 px-4 py-1 rounded-full bg-zinc-950 border border-zinc-800 text-[11px] font-mono text-zinc-400">
+                            <Lock size={12} className="text-[#b4f63c]" />
+                            <span>remargin.app/dashboard/{layer.id}</span>
+                          </div>
+
+                          <Link
+                            to={layer.route}
+                            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#b4f63c] hover:text-white transition-colors"
+                          >
+                            <span>Full View</span>
+                            <ArrowUpRight size={14} />
+                          </Link>
+                        </div>
+
+                        {/* Window Body — Live Website Dashboard View */}
+                        <div className="p-6 lg:p-8 space-y-6">
+                          {/* Dashboard Header Bar */}
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-zinc-800/60">
+                            <div>
+                              <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#b4f63c]">
+                                {layer.eyebrow}
+                              </span>
+                              <h3 className="font-display text-2xl lg:text-3xl font-extrabold text-white mt-1">
+                                {layer.title}
+                              </h3>
+                            </div>
+                            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-zinc-800 bg-zinc-900 text-xs font-semibold text-zinc-300">
+                              <CalendarDays size={14} className="text-primary" />
+                              <span>Apr – Sep 2026</span>
+                            </div>
+                          </div>
+
+                          {/* KPI Cards Grid */}
+                          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                            {layer.kpis.map((kpi) => (
+                              <div
+                                key={kpi.label}
+                                className={`p-4 rounded-xl border bg-zinc-900/60 backdrop-blur-md ${
+                                  kpi.tone === "warning"
+                                    ? "border-amber-500/30 bg-amber-500/5"
+                                    : kpi.tone === "success"
+                                    ? "border-emerald-500/30 bg-emerald-500/5"
+                                    : "border-zinc-800"
+                                }`}
+                              >
+                                <div className="flex items-center justify-between mb-2">
+                                  <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">
+                                    {kpi.label}
+                                  </span>
+                                  <span
+                                    className={`size-2 rounded-full ${
+                                      kpi.tone === "warning"
+                                        ? "bg-amber-400"
+                                        : kpi.tone === "success"
+                                        ? "bg-[#b4f63c]"
+                                        : "bg-zinc-600"
+                                    }`}
+                                  />
+                                </div>
+                                <p className="font-display text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
+                                  {kpi.value}
+                                </p>
+                                <p className="text-[11px] text-zinc-400 mt-1 font-medium">{kpi.detail}</p>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Live Interactive Charts Pair */}
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 pt-2">
+                            <div className="p-5 rounded-2xl border border-zinc-800/80 bg-zinc-900/40">
+                              <div className="mb-4">
+                                <h4 className="font-display text-base font-bold text-white">
+                                  {layer.leftChartTitle}
+                                </h4>
+                                <p className="text-xs text-zinc-400">{layer.leftChartSubtitle}</p>
+                              </div>
+                              <div className="h-56">
+                                {layer.leftChartType === "scope" ? (
+                                  <ScopeChart />
+                                ) : (
+                                  <TrendChart kind={layer.leftChartType} />
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="p-5 rounded-2xl border border-zinc-800/80 bg-zinc-900/40">
+                              <div className="mb-4">
+                                <h4 className="font-display text-base font-bold text-white">
+                                  {layer.rightChartTitle}
+                                </h4>
+                                <p className="text-xs text-zinc-400">{layer.rightChartSubtitle}</p>
+                              </div>
+                              <div className="h-56">
+                                {layer.rightChartType === "comparison" ? (
+                                  <ComparisonChart />
+                                ) : (
+                                  <TrendChart kind={layer.rightChartType} />
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-
-                      <div className="flex items-center gap-2 px-4 py-1 rounded-full bg-zinc-950 border border-zinc-800 text-[11px] font-mono text-zinc-400">
-                        <Lock size={12} className="text-[#b4f63c]" />
-                        <span>remargin.app/dashboard/{activeLayer.id}</span>
-                      </div>
-
-                      <Link
-                        to={activeLayer.route}
-                        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#b4f63c] hover:text-white transition-colors"
-                      >
-                        <span>Full View</span>
-                        <ArrowUpRight size={14} />
-                      </Link>
                     </div>
 
-                    {/* Window Body — Live Dashboard Graphics & Stats */}
-                    <div key={activeLayer.id} className="p-6 lg:p-8 space-y-6 animate-fade-in">
-                      {/* Dashboard Header Bar */}
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-zinc-800/60">
-                        <div>
-                          <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#b4f63c]">
-                            {activeLayer.eyebrow}
-                          </span>
-                          <h3 className="font-display text-2xl lg:text-3xl font-extrabold text-white mt-1">
-                            {activeLayer.title}
-                          </h3>
-                        </div>
-                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-zinc-800 bg-zinc-900 text-xs font-semibold text-zinc-300">
-                          <CalendarDays size={14} className="text-primary" />
-                          <span>Apr – Sep 2026</span>
+                    {/* Information & Feature Checklist Section (Matching Auraform Layout) */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-2 px-2">
+                      <div className="lg:col-span-7 space-y-4">
+                        <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+                          {layer.headline}
+                        </h3>
+                        <p className="text-base leading-relaxed text-zinc-400 font-medium">
+                          {layer.description}
+                        </p>
+                        <div className="pt-2">
+                          <Link
+                            to={layer.route}
+                            className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-[#b4f63c] hover:text-white transition-colors"
+                          >
+                            <span>Explore {layer.title}</span>
+                            <ArrowUpRight size={16} />
+                          </Link>
                         </div>
                       </div>
 
-                      {/* KPI Cards Grid */}
-                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                        {activeLayer.kpis.map((kpi) => (
-                          <div
-                            key={kpi.label}
-                            className={`p-4 rounded-xl border bg-zinc-900/60 backdrop-blur-md ${
-                              kpi.tone === "warning"
-                                ? "border-amber-500/30 bg-amber-500/5"
-                                : kpi.tone === "success"
-                                ? "border-emerald-500/30 bg-emerald-500/5"
-                                : "border-zinc-800"
-                            }`}
-                          >
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">
-                                {kpi.label}
-                              </span>
-                              <span
-                                className={`size-2 rounded-full ${
-                                  kpi.tone === "warning"
-                                    ? "bg-amber-400"
-                                    : kpi.tone === "success"
-                                    ? "bg-[#b4f63c]"
-                                    : "bg-zinc-600"
-                                }`}
-                              />
-                            </div>
-                            <p className="font-display text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
-                              {kpi.value}
-                            </p>
-                            <p className="text-[11px] text-zinc-400 mt-1 font-medium">{kpi.detail}</p>
+                      <div className="lg:col-span-5 space-y-3">
+                        {layer.checklist.map((item, cIdx) => (
+                          <div key={cIdx} className="flex items-center gap-3.5 p-4 rounded-2xl border border-zinc-800/90 bg-zinc-900/60 backdrop-blur-sm">
+                            <span className="size-6 rounded-full bg-[#b4f63c]/20 border border-[#b4f63c]/40 flex items-center justify-center text-[#b4f63c] text-xs font-bold shrink-0">
+                              ✓
+                            </span>
+                            <span className="text-sm font-semibold text-zinc-200">{item}</span>
                           </div>
                         ))}
                       </div>
-
-                      {/* Live Interactive Charts Pair */}
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 pt-2">
-                        <div className="p-5 rounded-2xl border border-zinc-800/80 bg-zinc-900/40">
-                          <div className="mb-4">
-                            <h4 className="font-display text-base font-bold text-white">
-                              {activeLayer.leftChartTitle}
-                            </h4>
-                            <p className="text-xs text-zinc-400">{activeLayer.leftChartSubtitle}</p>
-                          </div>
-                          <div className="h-56">
-                            {activeLayer.leftChartType === "scope" ? (
-                              <ScopeChart />
-                            ) : (
-                              <TrendChart kind={activeLayer.leftChartType} />
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="p-5 rounded-2xl border border-zinc-800/80 bg-zinc-900/40">
-                          <div className="mb-4">
-                            <h4 className="font-display text-base font-bold text-white">
-                              {activeLayer.rightChartTitle}
-                            </h4>
-                            <p className="text-xs text-zinc-400">{activeLayer.rightChartSubtitle}</p>
-                          </div>
-                          <div className="h-56">
-                            {activeLayer.rightChartType === "comparison" ? (
-                              <ComparisonChart />
-                            ) : (
-                              <TrendChart kind={activeLayer.rightChartType} />
-                            )}
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })()}
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
