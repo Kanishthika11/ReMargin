@@ -1,8 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, BarChart3, Camera, CircleDollarSign, Cloud, Factory, FileCheck2, Gauge, Leaf, Recycle, ShieldCheck, SunMedium, Wrench, ArrowUpRight } from "lucide-react";
+import { ArrowRight, BarChart3, Camera, CircleDollarSign, Cloud, Factory, FileCheck2, Gauge, Leaf, Recycle, ShieldCheck, SunMedium, Wrench, ArrowUpRight, Network, Target, FileText, Cpu, ScanLine } from "lucide-react";
 import heroImage from "@/assets/sustainable_city_globe.jpg";
 import greenGlobeImage from "@/assets/green_globe.png";
+import noveltyImg1 from "@/assets/novelty_01.jpg";
+import noveltyImg2 from "@/assets/novelty_02.jpg";
+import noveltyImg3 from "@/assets/novelty_03.jpg";
+import noveltyImg4 from "@/assets/novelty_04.jpg";
+import noveltyImg5 from "@/assets/novelty_05.jpg";
+import noveltyImg6 from "@/assets/novelty_06.jpg";
 import { ReMarginLogo } from "@/components/remargin-logo";
 import { ParticleSphere } from "@/components/particle-sphere";
 
@@ -23,9 +29,55 @@ const features = [
   [SunMedium, "Solar Feasibility", "Use actual consumption patterns to model capacity, savings and payback."],
 ] as const;
 
+const noveltyItems = [
+  {
+    num: "01",
+    title: "Cost Intelligence",
+    icon: CircleDollarSign,
+    image: noveltyImg1,
+    description: "Transforming operational inefficiencies into measurable financial impact, so teams can understand where value is being lost and prioritize corrective action."
+  },
+  {
+    num: "02",
+    title: "One Data Thread",
+    icon: Network,
+    image: noveltyImg2,
+    description: "Energy, scrap, production and maintenance don't live in separate silos. ReMargin connects them in one operational picture."
+  },
+  {
+    num: "03",
+    title: "Verified Improvement",
+    icon: Target,
+    image: noveltyImg3,
+    description: "Track interventions from identification to resolution and measure the resulting change — creating a clear, evidence-based improvement cycle."
+  },
+  {
+    num: "04",
+    title: "Reporting from the Same Data",
+    icon: FileText,
+    image: noveltyImg4,
+    description: "Turn operational data into structured carbon, ESG and sustainability reporting without creating a separate reporting workflow."
+  },
+  {
+    num: "05",
+    title: "Built for Lean Teams",
+    icon: Cpu,
+    image: noveltyImg5,
+    description: "No complicated rollout. No dependency on a dedicated technical team. Just a simpler path from factory data to useful action."
+  },
+  {
+    num: "06",
+    title: "Capture Without Complexity",
+    icon: ScanLine,
+    image: noveltyImg6,
+    description: "Bills, meter readings, slips and production data can enter through the workflows factory teams already use."
+  }
+] as const;
+
 function LandingPage() {
   const [activeGap, setActiveGap] = useState("01");
   const [activeFeature, setActiveFeature] = useState(0);
+  const [activeNovelty, setActiveNovelty] = useState(0);
 
   useEffect(() => {
     const featureTimer = setInterval(() => {
@@ -59,7 +111,7 @@ function LandingPage() {
       <div className="mx-auto grid h-20 max-w-[90rem] grid-cols-[auto_1fr_auto] items-center px-6 lg:px-12">
         <ReMarginLogo />
         <nav className="hidden justify-center gap-6 lg:flex">
-          {["Problem", "Solution", "Features", "Novelty", "Insights", "Contact"].map((item) => (
+          {["Problem", "Features", "Novelty", "Insights", "Contact"].map((item) => (
             <a key={item} href={`#${item.toLowerCase()}`} className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground transition hover:text-primary">
               {item}
             </a>
@@ -87,7 +139,7 @@ function LandingPage() {
             </p>
             <div className="pt-4 flex flex-wrap gap-4">
               <Link to="/register" className="button-pill">Get Started <ArrowUpRight size={16} /></Link>
-              <a href="#solution" className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border px-6 text-xs font-bold uppercase tracking-wider hover:bg-muted transition-colors">Explore ReMargin</a>
+              <a href="#features" className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border px-6 text-xs font-bold uppercase tracking-wider hover:bg-muted transition-colors">Explore ReMargin</a>
             </div>
           </div>
 
@@ -180,22 +232,6 @@ function LandingPage() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section id="solution" className="bg-muted/30 py-32 border-y border-border/50">
-        <div className="mx-auto max-w-[90rem] px-6 lg:px-12">
-          <SectionIntro kicker="Connected workflow" title="From Factory Data to Action" text="Workers photograph records or enter values manually. ReMargin verifies, standardizes and converts them into a practical improvement cycle." />
-          <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {["Capture", "OCR / manual", "Verify", "Analyze ₹ impact", "Track & report"].map((step,i) => (
-              <div key={step} className="relative rounded-3xl border border-border bg-background p-6 transition-all hover:border-primary/50">
-                <span className="text-xs font-bold text-primary">0{i+1}</span>
-                <p className="mt-8 font-display font-bold text-lg">{step}</p>
-                {i<4 && <ArrowRight className="absolute -right-6 top-1/2 z-10 hidden text-primary lg:block" size={22} />}
-              </div>
-            ))}
-          </div>
-          <p className="mt-10 max-w-3xl text-sm text-muted-foreground">Inputs include electricity meters, bills, scrap and production slips, machine specifications and maintenance information.</p>
         </div>
       </section>
 
@@ -346,45 +382,71 @@ function LandingPage() {
 
       <section id="novelty" className="bg-[#f4f9e8] py-32 text-zinc-900 relative overflow-hidden">
         <div className="mx-auto max-w-[90rem] px-6 lg:px-12 relative z-10">
-          <div className="max-w-3xl">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#5c9c14] mb-4">The ReMargin difference</p>
-            <h2 className="font-display text-4xl font-bold sm:text-5xl tracking-tight text-[#1c3520]">What Makes ReMargin Different?</h2>
-            <p className="mt-6 text-lg leading-relaxed text-[#3a543e]">ReMargin connects energy, waste, money, maintenance, carbon and compliance in one workflow.</p>
+          <div className="max-w-3xl mb-16">
+            <p className="text-xs font-extrabold uppercase tracking-widest text-[#5c9c14] mb-4">The ReMargin difference</p>
+            <h2 className="font-display text-4xl font-extrabold sm:text-5xl tracking-tight text-[#1c3520]">What Makes ReMargin Different?</h2>
+            <p className="mt-4 text-lg leading-relaxed text-[#3a543e] font-medium">ReMargin connects energy, waste, money, maintenance, carbon and compliance in one workflow.</p>
           </div>
           
-          <div className="mt-16 grid overflow-hidden rounded-3xl border border-[#1c3520]/20 shadow-xl lg:grid-cols-2">
-            <div className="p-10 bg-white/90 text-zinc-900">
-              <p className="text-xs font-bold uppercase tracking-widest text-zinc-500">Traditional approach</p>
-              <ul className="mt-8 grid gap-5 sm:grid-cols-2">
-                {["kWh numbers", "Disconnected bills", "Manual reports", "Technical data", "Reactive maintenance", "Separate sustainability work"].map(item => (
-                  <li key={item} className="flex items-center gap-3 text-sm font-bold text-zinc-800">
-                    <span className="flex-shrink-0 size-2 rounded-full bg-zinc-400"/>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            
-            <div className="p-10 bg-[#1c3520] text-white">
-              <p className="text-xs font-bold uppercase tracking-widest text-[#a3e635]">ReMargin</p>
-              <ul className="mt-8 grid gap-5 sm:grid-cols-2">
-                {["₹ impact", "Unified factory data", "Automated reports", "Actionable insights", "Fix verification", "Sustainability + financial analysis"].map(item => (
-                  <li key={item} className="flex items-center gap-3 text-sm font-bold text-white">
-                    <span className="flex-shrink-0 size-2 rounded-full bg-[#a3e635]"/>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          
-          <div className="mt-16 flex flex-wrap items-center justify-center gap-4">
-            {["MEASURE", "UNDERSTAND", "QUANTIFY", "ACT", "VERIFY", "REPORT"].map((item,i) => (
-              <div key={item} className="flex items-center gap-4">
-                <span className="rounded-full border border-[#1c3520]/20 bg-[#1c3520]/10 px-5 py-2.5 text-xs font-bold text-[#1c3520] tracking-wider">{item}</span>
-                {i<5 && <ArrowRight size={16} className="text-[#1c3520]/50" />}
-              </div>
-            ))}
+          <div className="space-y-4 max-w-7xl mx-auto">
+            {noveltyItems.map((item, idx) => {
+              const isActive = activeNovelty === idx;
+              const Icon = item.icon;
+              return (
+                <div
+                  key={item.num}
+                  onClick={() => setActiveNovelty(idx)}
+                  onMouseEnter={() => setActiveNovelty(idx)}
+                  className={`group relative rounded-xl p-5 lg:p-7 transition-all duration-300 cursor-pointer overflow-hidden ${
+                    isActive
+                      ? "bg-gradient-to-r from-[#c3f638] via-[#d7fa65] to-[#e8fca8] text-[#112615] shadow-xl scale-[1.005]"
+                      : "bg-[#eef6d8] hover:bg-gradient-to-r hover:from-[#dcf878] hover:to-[#eef6d8] text-[#112615]"
+                  }`}
+                >
+                  <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_auto_1.6fr] items-center gap-6">
+                    {/* Left: Number + Icon + Topic Name */}
+                    <div className="flex items-center gap-4">
+                      <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-colors ${
+                        isActive ? "bg-[#112615] text-[#b4f63c] shadow-md" : "bg-white text-[#112615] shadow-sm"
+                      }`}>
+                        <Icon size={20} />
+                      </span>
+                      <div>
+                        <h3 className="font-display text-2xl lg:text-3xl font-extrabold tracking-tight">
+                          {item.title}
+                        </h3>
+                      </div>
+                    </div>
+
+                    {/* Center Image Floating Card (Sunara Framer signature 3D visual preview) */}
+                    <div className="relative flex items-center justify-center py-2 lg:py-0 px-2">
+                      <div className={`transition-all duration-500 transform ${
+                        isActive
+                          ? "opacity-100 scale-105 rotate-[-3deg] translate-y-0"
+                          : "opacity-40 scale-95 rotate-0 group-hover:opacity-75"
+                      }`}>
+                        <div className="relative overflow-hidden rounded-2xl border-4 border-white shadow-2xl w-44 h-28 lg:w-52 lg:h-32 bg-black/10">
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right: Explanation */}
+                    <div className="lg:pl-6">
+                      <p className={`text-sm sm:text-base leading-relaxed font-medium ${
+                        isActive ? "text-[#112615] font-semibold" : "text-[#3a543e]"
+                      }`}>
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
