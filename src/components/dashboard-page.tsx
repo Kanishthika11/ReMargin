@@ -1,11 +1,19 @@
 import { CalendarDays, Download, Lightbulb, TrendingDown, Wrench } from "lucide-react";
 import { AppShell, ChartCard, KpiCard, PageHeader } from "./app-shell";
 import { BaselineVsCurrentChart, ComparisonChart, CostVsCarbonChart, ExpectedVsEstimatedEnergyChart, ProductEmissionChart, ScopeChart, ScrapBarChart, TrendChart, YieldRadarChart } from "./charts";
+import { carbonSeries, energySeries, costSeries, wasteSeries, yieldSeries, radarActual } from "@/lib/remargin";
+
+const totalCarbon = carbonSeries.reduce((a, b) => a + b, 0);
+const totalEnergy = energySeries.reduce((a, b) => a + b, 0);
+const totalEnergyCost = costSeries.reduce((a, b) => a + b, 0);
+const totalWaste = wasteSeries.reduce((a, b) => a + b, 0);
+const avgYield = (yieldSeries.reduce((a, b) => a + b, 0) / yieldSeries.length).toFixed(1);
 
 const content = {
-  carbon: { title:"Carbon Tracker", description:"Track Scope 1 and Scope 2 emissions across factory lines to measure carbon intensity, optimize energy footprint, lower operating costs, and meet ESG sustainability compliance goals.", kpis:[["Total CO₂e","6.74 t","↓ 8.2% from previous period","success"],["Scope 1","1.21 t","18% of recorded emissions","default"],["Scope 2","5.53 t","Electricity-related estimate","default"],["Carbon intensity","0.74 kg/unit","↓ 5.4% per unit","success"],["Period change","−0.60 t","Improvement vs last period","success"]], charts:[]},
-  sustainability: { title:"Sustainability Analytics", description:"Connect energy efficiency, material yield and cost recovery in one operating view.", kpis:[["Energy efficiency","86.7%","↑ 3.1 points","success"],["Scrap rate","8.4%","↓ 1.2 points","success"],["Production yield","91.6%","420 kg usable output","success"],["Energy cost","₹84,600","Current period estimate","default"],["Estimated ₹ loss","₹9,600","Energy + material waste","warning"],["Recovered cost","₹14,200","Verified improvement actions","success"]], charts:[["Energy efficiency trend","Actual efficiency by month","yield"],["Yield trend","Usable output percentage radar","radar_yield"],["Scrap trend","Material loss by date","scrap_bar"]]},
-  energy: { title:"Energy Monitoring", description:"See consumption, peak demand and the monetary cost of avoidable energy use.", kpis:[["Bimonthly energy consumption","15,680 kWh","Bimonthly recorded sources","default"],["Daily average","261 kWh","60-day average","default"],["Peak consumption","418 kWh","Highest recorded day","warning"],["Energy cost","₹133,280","At verified tariff","default"],["Estimated ₹ waste","₹19,200","2,400 kWh excess","warning"]], charts:[["Bimonthly energy consumption","Actual kWh trend","energy"],["Actual vs ideal energy","Illustrative benchmark comparison","comparison"]]},
+  carbon: { title:"Carbon Tracker", description:"Track Scope 1 and Scope 2 emissions across factory lines to measure carbon intensity, optimize energy footprint, lower operating costs, and meet ESG sustainability compliance goals.", kpis:[["Total CO₂e",`${totalCarbon.toFixed(2)} t`,"↓ 8.2% from previous period","success"],["Scope 1",`${(totalCarbon*0.18).toFixed(2)} t`,"18% of recorded emissions","default"],["Scope 2",`${(totalCarbon*0.82).toFixed(2)} t`,"Electricity-related estimate","default"],["Carbon intensity","0.74 kg/unit","↓ 5.4% per unit","success"],["Period change","−0.60 t","Improvement vs last period","success"]], charts:[]},
+  sustainability: { title:"Sustainability Analytics", description:"Connect energy efficiency, material yield and cost recovery in one operating view.", kpis:[["Energy efficiency",`${radarActual[4]}%`,"↑ 3.1 points","success"],["Scrap rate","8.4%","↓ 1.2 points","success"],["Production yield",`${avgYield}%`,`${totalWaste} kg usable output`,"success"],["Energy cost",`₹${totalEnergyCost.toLocaleString()}`,"Current period estimate","default"],["Estimated ₹ loss","₹9,600","Energy + material waste","warning"],["Recovered cost","₹14,200","Verified improvement actions","success"]], charts:[["Energy efficiency trend","Actual efficiency by month","yield"],["Yield trend","Usable output percentage radar","radar_yield"],["Scrap trend","Material loss by date","scrap_bar"]]},
+  energy: { title:"Energy Monitoring", description:"See consumption, peak demand and the monetary cost of avoidable energy use.", kpis:[["Monthly energy consumption",`${totalEnergy.toLocaleString()} kWh`,"Monthly recorded sources","default"],["Daily average",`${Math.round(totalEnergy/180)} kWh`,"60-day average","default"],["Peak consumption",`${Math.max(...energySeries).toLocaleString()} kWh`,"Highest recorded day","warning"],["Energy cost",`₹${totalEnergyCost.toLocaleString()}`,"At verified tariff","default"],["Estimated ₹ waste","₹19,200","2,400 kWh excess","warning"]], charts:[["Monthly energy consumption","Actual kWh trend","energy"],["Actual vs ideal energy","Illustrative benchmark comparison","comparison"]]},
+
 } as const;
 
 const sdgGoals = [
@@ -65,6 +73,8 @@ function SdgMarqueeBanner() {
 }
 
 function CarbonKpiCardsBlock() {
+  const totalCarbon = carbonSeries.reduce((a, b) => a + b, 0);
+
   return (
     <div className="flex flex-col gap-3 h-full justify-between">
       {/* Total CO2e Featured Card */}
@@ -76,7 +86,7 @@ function CarbonKpiCardsBlock() {
           </span>
           <span className="text-[10px] font-semibold text-[#8ca897]">Updated live</span>
         </div>
-        <p className="mt-3 font-display text-3xl font-extrabold tracking-tight text-white">6.74 t</p>
+        <p className="mt-3 font-display text-3xl font-extrabold tracking-tight text-white">{totalCarbon.toFixed(2)} t</p>
         <p className="mt-1 text-xs font-semibold text-[#95eb27]">↓ 8.2% from previous period</p>
       </div>
 
@@ -86,14 +96,14 @@ function CarbonKpiCardsBlock() {
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#7a9d88]">Scope 1</span>
           </div>
-          <p className="mt-2 font-display text-2xl font-extrabold text-[#072115]">1.21 t</p>
+          <p className="mt-2 font-display text-2xl font-extrabold text-[#072115]">{(totalCarbon * 0.18).toFixed(2)} t</p>
           <p className="mt-0.5 text-[11px] font-medium text-[#10b981]">18% recorded</p>
         </div>
         <div className="rounded-xl border border-[#e1e8e2] bg-white p-4 shadow-xs">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#7a9d88]">Scope 2</span>
           </div>
-          <p className="mt-2 font-display text-2xl font-extrabold text-[#072115]">5.53 t</p>
+          <p className="mt-2 font-display text-2xl font-extrabold text-[#072115]">{(totalCarbon * 0.82).toFixed(2)} t</p>
           <p className="mt-0.5 text-[11px] font-medium text-[#10b981]">Electricity est.</p>
         </div>
       </div>
@@ -120,31 +130,34 @@ function CarbonKpiCardsBlock() {
 }
 
 function EnergyKpiCardsBlock() {
+  const totalEnergy = energySeries.reduce((a, b) => a + b, 0);
+  const totalEnergyCost = costSeries.reduce((a, b) => a + b, 0);
+
   return (
     <div className="flex flex-col gap-3 h-full justify-between">
-      {/* Featured Bimonthly Energy Consumption Dark Card */}
+      {/* Featured Monthly Energy Consumption Dark Card */}
       <div className="relative overflow-hidden rounded-2xl bg-[#072115] p-4 text-white shadow-md border border-[#17452d]">
         <div className="flex items-center justify-between">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-[#17452d] bg-[#0c3120] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#95eb27]">
             <span className="size-1.5 rounded-full bg-[#95eb27] animate-pulse" />
-            Bimonthly Consumption
+            Monthly Consumption
           </span>
           <span className="text-[10px] font-semibold text-[#8ca897]">Updated live</span>
         </div>
-        <p className="mt-2.5 font-display text-2xl font-extrabold tracking-tight text-white">15,680 kWh</p>
-        <p className="mt-0.5 text-[11px] font-semibold text-[#95eb27]">Bimonthly recorded sources</p>
+        <p className="mt-2.5 font-display text-2xl font-extrabold tracking-tight text-white">{totalEnergy.toLocaleString()} kWh</p>
+        <p className="mt-0.5 text-[11px] font-semibold text-[#95eb27]">Monthly recorded sources</p>
       </div>
 
       {/* Daily Average & Peak Consumption Stacked Cards */}
       <div className="grid grid-cols-2 gap-2.5">
         <div className="rounded-xl border border-[#e1e8e2] bg-white p-3 shadow-xs">
           <span className="text-[9px] font-extrabold uppercase tracking-wider text-[#7a9d88]">Daily Average</span>
-          <p className="mt-1 font-display text-xl font-extrabold text-[#072115]">261 kWh</p>
+          <p className="mt-1 font-display text-xl font-extrabold text-[#072115]">{Math.round(totalEnergy/180)} kWh</p>
           <p className="mt-0.5 text-[10px] font-medium text-[#10b981]">60-day average</p>
         </div>
         <div className="rounded-xl border border-[#e1e8e2] bg-white p-3 shadow-xs">
           <span className="text-[9px] font-extrabold uppercase tracking-wider text-[#7a9d88]">Peak Consumption</span>
-          <p className="mt-1 font-display text-xl font-extrabold text-[#072115]">418 kWh</p>
+          <p className="mt-1 font-display text-xl font-extrabold text-[#072115]">{Math.max(...energySeries).toLocaleString()} kWh</p>
           <p className="mt-0.5 text-[10px] font-medium text-[#f59e0b]">Highest day</p>
         </div>
       </div>
@@ -153,7 +166,7 @@ function EnergyKpiCardsBlock() {
       <div className="grid grid-cols-2 gap-2.5">
         <div className="rounded-xl border border-[#e1e8e2] bg-white p-3 shadow-xs">
           <span className="text-[9px] font-extrabold uppercase tracking-wider text-[#7a9d88]">Energy Cost</span>
-          <p className="mt-1 font-display text-xl font-extrabold text-[#072115]">₹133,280</p>
+          <p className="mt-1 font-display text-xl font-extrabold text-[#072115]">₹{totalEnergyCost.toLocaleString()}</p>
           <p className="mt-0.5 text-[10px] font-medium text-[#10b981]">Verified tariff</p>
         </div>
         <div className="rounded-xl border border-[#e1e8e2] bg-white p-3 shadow-xs">
@@ -237,9 +250,9 @@ export function DashboardPage({ kind }: { kind: keyof typeof content }) {
         </div>
       ) : kind === "energy" ? (
         <div className="space-y-6">
-          {/* First Div: Bimonthly energy consumption graph */}
+          {/* First Div: Monthly energy consumption graph */}
           <ChartCard 
-            title="Bimonthly energy consumption" 
+            title="Monthly energy consumption" 
             subtitle="Actual kWh trend"
           >
             <TrendChart kind="energy" />

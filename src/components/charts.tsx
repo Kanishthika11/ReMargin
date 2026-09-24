@@ -12,7 +12,7 @@ import {
   Filler,
 } from "chart.js";
 import { Bar, Doughnut, Line, Radar } from "react-chartjs-2";
-import { carbonSeries, chartMonths, energySeries, idealEnergySeries, wasteSeries } from "@/lib/remargin";
+import { carbonSeries, chartMonths, energySeries, idealEnergySeries, wasteSeries, yieldSeries, radarActual, productEmissions, baselineCarbonSeries, costSeries, expectedEnergySeries } from "@/lib/remargin";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, RadialLinearScale, Tooltip, Legend, Filler);
 
@@ -31,7 +31,7 @@ const options = {
 };
 
 export function TrendChart({ kind = "carbon" }: { kind?: "carbon" | "energy" | "waste" | "yield" }) {
-  const values = kind === "carbon" ? carbonSeries : kind === "waste" ? wasteSeries : kind === "yield" ? [87, 89, 88, 91, 92, 93] : energySeries;
+  const values = kind === "carbon" ? carbonSeries : kind === "waste" ? wasteSeries : kind === "yield" ? yieldSeries : energySeries;
   const strokeColor = kind === "waste" ? "#ef4444" : "#072115";
   const fillColor = kind === "waste" ? "rgba(239, 68, 68, 0.12)" : "rgba(7, 33, 21, 0.08)";
   const yAxisTitle = kind === "carbon" ? "Emissions (tCO₂e)" : kind === "waste" ? "Material Loss (kg)" : kind === "yield" ? "Yield Percentage (%)" : "Consumption (kWh)";
@@ -116,7 +116,7 @@ export function YieldRadarChart() {
       },
       {
         label: "Actual (Apr–Sep 2026)",
-        data: [93, 91, 95, 94, 92, 94],
+        data: radarActual,
         borderColor: "#95eb27",
         backgroundColor: "rgba(149, 235, 39, 0.25)",
         borderWidth: 2,
@@ -157,7 +157,7 @@ export function ScrapBarChart() {
     datasets: [
       {
         label: "Scrap Loss (₹)",
-        data: [18.4, 14.2, 19.6, 11.8, 10.2, 9.6].map(x => x * 1000),
+        data: wasteSeries,
         backgroundColor: ["#ef4444", "#f97316", "#ef4444", "#10b981", "#95eb27", "#95eb27"],
         borderRadius: 6,
         barThickness: 24
@@ -195,11 +195,10 @@ export function ProductEmissionChart() {
   const data = {
     labels: chartMonths,
     datasets: [
-      { label: "EN8 Shafts", data: [0.42, 0.39, 0.45, 0.38, 0.36, 0.34], backgroundColor: "#072115", borderRadius: 4 },
-      { label: "Cast Gears", data: [0.32, 0.30, 0.34, 0.28, 0.27, 0.25], backgroundColor: "#10b981", borderRadius: 4 },
-      { label: "Steel Plates", data: [0.20, 0.19, 0.21, 0.18, 0.17, 0.16], backgroundColor: "#95eb27", borderRadius: 4 },
-      { label: "Flanges", data: [0.10, 0.09, 0.08, 0.08, 0.07, 0.07], backgroundColor: "#34d399", borderRadius: 4 },
-      { label: "Precision Pins", data: [0.04, 0.05, 0.04, 0.04, 0.04, 0.04], backgroundColor: "#a2c2b0", borderRadius: 4 },
+      { label: "Shafts", data: productEmissions.Shafts, backgroundColor: "#072115", borderRadius: 4 },
+      { label: "Gears", data: productEmissions.Gears, backgroundColor: "#10b981", borderRadius: 4 },
+      { label: "Casings", data: productEmissions.Casings, backgroundColor: "#95eb27", borderRadius: 4 },
+      { label: "Valves", data: productEmissions.Valves, backgroundColor: "#34d399", borderRadius: 4 },
     ]
   };
   return <Bar options={customOptions} data={data} />;
@@ -233,7 +232,7 @@ export function BaselineVsCurrentChart() {
       {
         type: "line" as const,
         label: "Baseline Target (t)",
-        data: [1.30, 1.25, 1.20, 1.15, 1.10, 1.00],
+        data: baselineCarbonSeries,
         borderColor: "#072115",
         borderWidth: 2,
         borderDash: [5, 5],
@@ -244,7 +243,7 @@ export function BaselineVsCurrentChart() {
       {
         type: "bar" as const,
         label: "Current Emissions (t)",
-        data: [1.08, 1.02, 1.12, 0.96, 0.91, 0.86],
+        data: carbonSeries,
         backgroundColor: "#95eb27",
         borderRadius: 6,
         barThickness: 20
@@ -281,9 +280,9 @@ export function CostVsCarbonChart() {
       yCarbon: {
         type: "linear" as const,
         position: "right" as const,
-        min: 0.8,
-        max: 1.4,
-        stepSize: 0.1,
+        min: 0,
+        max: 5.0,
+        stepSize: 1.0,
         grid: { display: false },
         border: { display: false },
         ticks: { color: "#10b981", font: { family: "Manrope, sans-serif", weight: 600 }, callback: (v: any) => `${Number(v).toFixed(1)} t` },
@@ -296,7 +295,7 @@ export function CostVsCarbonChart() {
     datasets: [
       {
         label: "Energy Cost (₹)",
-        data: [92000, 88000, 96000, 84000, 81000, 78000],
+        data: costSeries,
         borderColor: "#072115",
         backgroundColor: "rgba(7, 33, 21, 0.08)",
         fill: true,
@@ -307,7 +306,7 @@ export function CostVsCarbonChart() {
       },
       {
         label: "Carbon Footprint (tCO₂e)",
-        data: [1.25, 1.18, 1.30, 1.10, 1.04, 0.98],
+        data: carbonSeries,
         borderColor: "#10b981",
         backgroundColor: "rgba(16, 185, 129, 0.15)",
         fill: true,
@@ -350,7 +349,7 @@ export function ExpectedVsEstimatedEnergyChart() {
       {
         type: "line" as const,
         label: "Expected Energy (kWh)",
-        data: [1100, 1080, 1150, 1050, 1030, 1000],
+        data: expectedEnergySeries,
         borderColor: "#072115",
         borderWidth: 2,
         borderDash: [5, 5],
@@ -361,7 +360,7 @@ export function ExpectedVsEstimatedEnergyChart() {
       {
         type: "bar" as const,
         label: "Estimated Energy (kWh)",
-        data: [1280, 1190, 1340, 1110, 1080, 1040],
+        data: energySeries,
         backgroundColor: "#95eb27",
         borderRadius: 6,
         barThickness: 20
@@ -387,11 +386,13 @@ export function EstimatedVsActualScoreChart() {
         max: 100,
         grid: { color: "rgba(255, 255, 255, 0.08)" },
         border: { display: false },
-        ticks: { color: "#a2c2b0", font: { family: "Manrope, sans-serif", weight: 600 }, callback: (v: any) => `${v}%` }
+        ticks: { color: "#a2c2b0", font: { family: "Manrope, sans-serif", weight: 600 }, callback: (v: any) => `${v}%` },
+        title: { display: true, text: "Score (%)", color: "#a2c2b0", font: { family: "Sora, sans-serif", weight: 700, size: 11 } }
       },
       y: {
         grid: { display: false },
-        ticks: { color: "#ffffff", font: { family: "Sora, sans-serif", weight: 700, size: 11 } }
+        ticks: { color: "#ffffff", font: { family: "Sora, sans-serif", weight: 700, size: 11 } },
+        title: { display: true, text: "Metric", color: "#a2c2b0", font: { family: "Sora, sans-serif", weight: 700, size: 11 } }
       }
     }
   };
