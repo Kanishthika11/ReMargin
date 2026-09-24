@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, BarChart3, Camera, CircleDollarSign, Cloud, Factory, FileCheck2, Gauge, Leaf, Recycle, ShieldCheck, SunMedium, Wrench, ArrowUpRight, Network, Target, FileText, Cpu, ScanLine } from "lucide-react";
+import { ArrowRight, BarChart3, Camera, CircleDollarSign, Cloud, Factory, FileCheck2, Gauge, Leaf, Recycle, ShieldCheck, SunMedium, Wrench, ArrowUpRight, Network, Target, FileText, Cpu, ScanLine, CalendarDays, Lock } from "lucide-react";
 import heroImage from "@/assets/sustainable_city_globe.jpg";
 import greenGlobeImage from "@/assets/green_globe.png";
 import noveltyImg1 from "@/assets/novelty_01.jpg";
@@ -11,6 +11,7 @@ import noveltyImg5 from "@/assets/novelty_05.jpg";
 import noveltyImg6 from "@/assets/novelty_06.jpg";
 import { ReMarginLogo } from "@/components/remargin-logo";
 import { ParticleSphere } from "@/components/particle-sphere";
+import { ComparisonChart, ScopeChart, TrendChart } from "@/components/charts";
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [{ title: "ReMargin — Measure Waste. Reduce Cost. Build a Greener Factory." }, { name: "description", content: "ReMargin turns CNC factory energy and material waste into measurable savings, carbon insight and compliance-ready reports." }, { property: "og:title", content: "ReMargin — Factory sustainability intelligence" }, { property: "og:description", content: "Measure waste, reduce cost and build a greener CNC factory." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
@@ -74,10 +75,77 @@ const noveltyItems = [
   }
 ] as const;
 
+const intelligenceLayers = [
+  {
+    id: "carbon",
+    title: "Carbon Emission Tracking",
+    eyebrow: "Scope 1 & 2 Intelligence",
+    description: "Track factory carbon emissions, Scope 1 vs Scope 2 splits, and unit intensity over time with automated compliance telemetry.",
+    tags: ["CO₂e", "Scope 1 & 2", "Emissions trend", "Intensity"],
+    icon: Leaf,
+    route: "/dashboard/carbon",
+    kpis: [
+      { label: "Total CO₂e", value: "6.74 t", detail: "↓ 8.2% from previous period", tone: "success" as const },
+      { label: "Scope 1", value: "1.21 t", detail: "18% of recorded emissions", tone: "default" as const },
+      { label: "Scope 2", value: "5.53 t", detail: "82% electricity estimate", tone: "default" as const },
+      { label: "Carbon Intensity", value: "0.74 kg/unit", detail: "↓ 5.4% per unit", tone: "success" as const },
+    ],
+    leftChartTitle: "Scope 1 vs Scope 2",
+    leftChartSubtitle: "Recorded emissions split",
+    leftChartType: "scope" as const,
+    rightChartTitle: "Carbon Emissions Over Time",
+    rightChartSubtitle: "Monthly estimated tCO₂e",
+    rightChartType: "carbon" as const,
+  },
+  {
+    id: "sustainability",
+    title: "Sustainability Analytics",
+    eyebrow: "Yield & Cost Intelligence",
+    description: "Connect energy efficiency, material scrap, usable output yield, and recovered costs into one practical operating dashboard.",
+    tags: ["Efficiency", "Scrap & yield", "Waste trends", "Improvements"],
+    icon: Recycle,
+    route: "/dashboard/sustainability",
+    kpis: [
+      { label: "Energy Efficiency", value: "86.7%", detail: "↑ 3.1 points", tone: "success" as const },
+      { label: "Scrap Rate", value: "8.4%", detail: "↓ 1.2 points", tone: "success" as const },
+      { label: "Production Yield", value: "91.6%", detail: "420 kg usable output", tone: "default" as const },
+      { label: "Recovered Cost", value: "₹14,200", detail: "Verified actions", tone: "success" as const },
+    ],
+    leftChartTitle: "Energy Efficiency Trend",
+    leftChartSubtitle: "Actual efficiency by month",
+    leftChartType: "yield" as const,
+    rightChartTitle: "₹ Loss Trend",
+    rightChartSubtitle: "Estimated avoidable cost over time",
+    rightChartType: "waste" as const,
+  },
+  {
+    id: "energy",
+    title: "Energy Monitoring",
+    eyebrow: "Telemetry & Waste Intelligence",
+    description: "Monitor real-time consumption, peak usage spikes, and monetary cost of avoidable energy waste across factory machines.",
+    tags: ["Meter readings", "Peak usage", "₹ waste", "Machine insights"],
+    icon: BarChart3,
+    route: "/dashboard/energy",
+    kpis: [
+      { label: "Period Consumption", value: "7,840 kWh", detail: "All recorded sources", tone: "default" as const },
+      { label: "Daily Average", value: "261 kWh", detail: "30-day average", tone: "default" as const },
+      { label: "Peak Usage", value: "418 kWh", detail: "Highest recorded day", tone: "warning" as const },
+      { label: "Estimated ₹ Waste", value: "₹9,600", detail: "1,200 kWh excess", tone: "warning" as const },
+    ],
+    leftChartTitle: "Daily Energy Consumption",
+    leftChartSubtitle: "Actual kWh trend",
+    leftChartType: "energy" as const,
+    rightChartTitle: "Actual vs Ideal Energy",
+    rightChartSubtitle: "Illustrative benchmark comparison",
+    rightChartType: "comparison" as const,
+  },
+];
+
 function LandingPage() {
   const [activeGap, setActiveGap] = useState("01");
   const [activeFeature, setActiveFeature] = useState(0);
   const [activeNovelty, setActiveNovelty] = useState(0);
+  const [activeIntelligence, setActiveIntelligence] = useState(0);
 
   useEffect(() => {
     const featureTimer = setInterval(() => {
@@ -451,26 +519,204 @@ function LandingPage() {
         </div>
       </section>
 
-      <section id="insights" className="mx-auto max-w-[90rem] px-6 py-32 lg:px-12">
-        <SectionIntro kicker="Three intelligence layers" title="See performance from every business angle" text="Operational evidence becomes carbon, sustainability and energy intelligence without losing the underlying factory context." />
-        <div className="mt-16 grid gap-6 lg:grid-cols-3">
-          {[
-            [Leaf,"Carbon Emission Tracking",["CO₂e","Scope 1 & 2","Emissions trend","Intensity"]],
-            [Recycle,"Sustainability Analytics",["Efficiency","Scrap & yield","Waste trends","Improvements"]],
-            [BarChart3,"Energy Monitoring",["Meter readings","Peak usage","₹ waste","Machine insights"]]
-          ].map(([Icon,title,items]) => { 
-            const I = Icon as typeof Leaf; 
-            return <article key={title as string} className="glass-card p-10 rounded-3xl flex flex-col hover:border-primary/50 transition-all">
-              <I size={32} className="text-primary" />
-              <h3 className="mt-8 font-display text-2xl font-bold">{title as string}</h3>
-              <div className="my-8 flex flex-wrap gap-2">
-                {(items as string[]).map(x => <span className="rounded-full border border-border px-4 py-2 text-xs font-bold" key={x}>{x}</span>)}
-              </div>
-              <Link to="/login" className="mt-auto inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-primary hover:text-foreground transition-colors">
-                Explore <ArrowRight size={16}/>
-              </Link>
-            </article>; 
-          })}
+      <section id="insights" className="bg-[#080c0a] border-y border-border/40 py-28 text-white relative overflow-hidden">
+        <div className="mx-auto max-w-[90rem] px-6 lg:px-12 relative z-10">
+          {/* Top Header matching Auraform UI */}
+          <div className="mb-14">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-primary mb-4">
+              <span className="size-2 rounded-full bg-primary animate-pulse" />
+              FEATURES
+            </div>
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white max-w-4xl">
+              See What ReMargin AI Can Do for You
+            </h2>
+            <p className="mt-4 text-base sm:text-lg text-zinc-400 max-w-2xl font-medium">
+              Operational evidence becomes carbon, sustainability and energy intelligence without losing the underlying factory context.
+            </p>
+          </div>
+
+          {/* Grid Layout: Left Tabs Sidebar, Right Dashboard Preview Window */}
+          <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-8 items-start">
+            {/* Left Vertical Tab List */}
+            <div className="space-y-3">
+              {intelligenceLayers.map((layer, idx) => {
+                const isActive = activeIntelligence === idx;
+                const Icon = layer.icon;
+                return (
+                  <button
+                    key={layer.id}
+                    onClick={() => setActiveIntelligence(idx)}
+                    onMouseEnter={() => setActiveIntelligence(idx)}
+                    className={`w-full text-left p-6 rounded-2xl transition-all duration-300 border relative group cursor-pointer ${
+                      isActive
+                        ? "border-primary/50 bg-zinc-900/90 shadow-[0_0_30px_rgba(180,246,60,0.1)] text-white"
+                        : "border-zinc-800/80 bg-zinc-950/40 hover:bg-zinc-900/50 hover:border-zinc-700 text-zinc-400"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <span
+                          className={`size-2.5 rounded-full transition-all ${
+                            isActive ? "bg-[#b4f63c] shadow-[0_0_10px_#b4f63c]" : "bg-zinc-700"
+                          }`}
+                        />
+                        <h3
+                          className={`font-display text-sm lg:text-base font-extrabold uppercase tracking-wider ${
+                            isActive ? "text-white" : "text-zinc-400"
+                          }`}
+                        >
+                          {layer.title}
+                        </h3>
+                      </div>
+                      <Icon size={18} className={isActive ? "text-[#b4f63c]" : "text-zinc-600"} />
+                    </div>
+
+                    {isActive && (
+                      <div className="mt-4 space-y-4 animate-fade-in">
+                        <p className="text-xs leading-relaxed text-zinc-300 font-medium">
+                          {layer.description}
+                        </p>
+                        <div className="flex flex-wrap gap-1.5 pt-1">
+                          {layer.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#b4f63c]/15 text-[#b4f63c] border border-[#b4f63c]/30"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Right Window: Sleek macOS App Dashboard Frame */}
+            {(() => {
+              const activeLayer = intelligenceLayers[activeIntelligence];
+              return (
+                <div className="relative">
+                  {/* Ambient Glow */}
+                  <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 via-emerald-500/10 to-primary/20 rounded-3xl blur-3xl opacity-60 pointer-events-none" />
+
+                  <div className="relative rounded-3xl border border-zinc-800/90 bg-zinc-950/95 shadow-2xl overflow-hidden backdrop-blur-xl">
+                    {/* Window Title Bar */}
+                    <div className="flex items-center justify-between px-5 py-3.5 border-b border-zinc-800/80 bg-zinc-900/60">
+                      <div className="flex items-center gap-2">
+                        <span className="size-3 rounded-full bg-[#ff5f56]" />
+                        <span className="size-3 rounded-full bg-[#ffbd2e]" />
+                        <span className="size-3 rounded-full bg-[#27c93f]" />
+                      </div>
+
+                      <div className="flex items-center gap-2 px-4 py-1 rounded-full bg-zinc-950 border border-zinc-800 text-[11px] font-mono text-zinc-400">
+                        <Lock size={12} className="text-[#b4f63c]" />
+                        <span>remargin.app/dashboard/{activeLayer.id}</span>
+                      </div>
+
+                      <Link
+                        to={activeLayer.route}
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#b4f63c] hover:text-white transition-colors"
+                      >
+                        <span>Full View</span>
+                        <ArrowUpRight size={14} />
+                      </Link>
+                    </div>
+
+                    {/* Window Body — Live Dashboard Graphics & Stats */}
+                    <div key={activeLayer.id} className="p-6 lg:p-8 space-y-6 animate-fade-in">
+                      {/* Dashboard Header Bar */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-zinc-800/60">
+                        <div>
+                          <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#b4f63c]">
+                            {activeLayer.eyebrow}
+                          </span>
+                          <h3 className="font-display text-2xl lg:text-3xl font-extrabold text-white mt-1">
+                            {activeLayer.title}
+                          </h3>
+                        </div>
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-zinc-800 bg-zinc-900 text-xs font-semibold text-zinc-300">
+                          <CalendarDays size={14} className="text-primary" />
+                          <span>Apr – Sep 2026</span>
+                        </div>
+                      </div>
+
+                      {/* KPI Cards Grid */}
+                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                        {activeLayer.kpis.map((kpi) => (
+                          <div
+                            key={kpi.label}
+                            className={`p-4 rounded-xl border bg-zinc-900/60 backdrop-blur-md ${
+                              kpi.tone === "warning"
+                                ? "border-amber-500/30 bg-amber-500/5"
+                                : kpi.tone === "success"
+                                ? "border-emerald-500/30 bg-emerald-500/5"
+                                : "border-zinc-800"
+                            }`}
+                          >
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">
+                                {kpi.label}
+                              </span>
+                              <span
+                                className={`size-2 rounded-full ${
+                                  kpi.tone === "warning"
+                                    ? "bg-amber-400"
+                                    : kpi.tone === "success"
+                                    ? "bg-[#b4f63c]"
+                                    : "bg-zinc-600"
+                                }`}
+                              />
+                            </div>
+                            <p className="font-display text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
+                              {kpi.value}
+                            </p>
+                            <p className="text-[11px] text-zinc-400 mt-1 font-medium">{kpi.detail}</p>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Live Interactive Charts Pair */}
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 pt-2">
+                        <div className="p-5 rounded-2xl border border-zinc-800/80 bg-zinc-900/40">
+                          <div className="mb-4">
+                            <h4 className="font-display text-base font-bold text-white">
+                              {activeLayer.leftChartTitle}
+                            </h4>
+                            <p className="text-xs text-zinc-400">{activeLayer.leftChartSubtitle}</p>
+                          </div>
+                          <div className="h-56">
+                            {activeLayer.leftChartType === "scope" ? (
+                              <ScopeChart />
+                            ) : (
+                              <TrendChart kind={activeLayer.leftChartType} />
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="p-5 rounded-2xl border border-zinc-800/80 bg-zinc-900/40">
+                          <div className="mb-4">
+                            <h4 className="font-display text-base font-bold text-white">
+                              {activeLayer.rightChartTitle}
+                            </h4>
+                            <p className="text-xs text-zinc-400">{activeLayer.rightChartSubtitle}</p>
+                          </div>
+                          <div className="h-56">
+                            {activeLayer.rightChartType === "comparison" ? (
+                              <ComparisonChart />
+                            ) : (
+                              <TrendChart kind={activeLayer.rightChartType} />
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+          </div>
         </div>
       </section>
 
