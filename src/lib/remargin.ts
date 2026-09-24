@@ -72,6 +72,12 @@ export const energySeries = [1280, 1190, 1340, 1110, 1080, 1040];
 export const idealEnergySeries = [1040, 1030, 1080, 1010, 1000, 980];
 export const carbonSeries = [1.08, 1.02, 1.12, 0.96, 0.91, 0.86];
 export const wasteSeries = [18400, 14200, 19600, 11800, 10200, 9600];
+export const yieldSeries = [88.2, 89.6, 87.4, 90.8, 91.2, 92.4];
+export const radarActual = [93, 91, 95, 94, 92, 94];
+export const productEmissions = [0.42, 0.39, 0.45, 0.38, 0.36, 0.34];
+export const baselineCarbonSeries = [1.30, 1.25, 1.20, 1.15, 1.10, 1.00];
+export const costSeries = [92000, 88000, 96000, 84000, 81000, 78000];
+export const expectedEnergySeries = [1100, 1080, 1150, 1050, 1030, 1000];
 
 export const historyRows = [
   { date: "18 Sep 2026", type: "Meter + Scrap", energy: "1,200 kWh", waste: "200 kWh", loss: "₹9,600", scrap: "42 kg", yield: "91.6%", carbon: "0.86 t", status: "Action open" },
