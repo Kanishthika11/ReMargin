@@ -1,0 +1,6 @@
+import { Link } from "@tanstack/react-router";
+import { ReMarginLogo } from "./remargin-logo";
+
+export function AuthPage({ title, subtitle, children }: { title: string; subtitle: string; children: React.ReactNode }) {
+  return <main className="grid min-h-screen bg-app-canvas lg:grid-cols-[.8fr_1.2fr]"><section className="hidden bg-sidebar p-12 text-sidebar-foreground lg:flex lg:flex-col"><ReMarginLogo/><div className="mt-auto mb-auto"><p className="eyebrow text-accent">Factory intelligence</p><h2 className="max-w-md font-display text-4xl font-bold">Energy → waste → ₹ loss → action → savings.</h2><p className="mt-5 max-w-md text-sm leading-6 text-sidebar-muted">A connected operating layer for cleaner, more profitable CNC manufacturing.</p></div></section><section className="flex items-center justify-center px-4 py-12 sm:px-8"><div className="w-full max-w-lg"><Link to="/" className="mb-10 inline-flex lg:hidden"><ReMarginLogo/></Link><p className="eyebrow">ReMargin workspace</p><h1 className="font-display text-3xl font-bold">{title}</h1><p className="mt-2 text-sm text-muted-foreground">{subtitle}</p><div className="mt-8">{children}</div></div></section></main>;
+}

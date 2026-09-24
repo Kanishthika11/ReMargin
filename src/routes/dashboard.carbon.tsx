@@ -1,0 +1,2 @@
+import { createFileRoute } from "@tanstack/react-router";import { DashboardPage } from "@/components/dashboard-page";
+export const Route=createFileRoute("/dashboard/carbon")({head:()=>({meta:[{title:"Carbon Tracker — ReMargin"},{name:"description",content:"Track factory carbon emissions and intensity."},{property:"og:title",content:"Carbon Tracker — ReMargin"},{property:"og:description",content:"Factory carbon emissions intelligence."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary"}]}),component:()=> <DashboardPage kind="carbon"/>});
