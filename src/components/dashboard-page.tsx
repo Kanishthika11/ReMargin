@@ -333,14 +333,12 @@ export function DashboardPage({ kind }: { kind: keyof typeof content }) {
       )}
 
       {kind==="energy" && (
-        <div className="mt-6 rounded-2xl border border-[#17452d] bg-[#072115] p-6 text-white shadow-md">
-          <p className="text-xs font-extrabold uppercase tracking-wider text-[#48a65e]">Potential Energy Loss Alert</p>
+        <div className="mt-6 rounded-2xl border border-[#fecaca] bg-[#fef2f2] p-6 text-[#991b1b] shadow-xs">
+          <p className="text-xs font-extrabold uppercase tracking-wider text-[#dc2626]">Potential Energy Loss Alert</p>
           <div className="mt-2 flex flex-wrap items-end justify-between gap-5">
             <div>
-              <p className="font-display text-3xl font-extrabold text-white">
-                <span className="text-red-400">₹9,600</span> estimated loss
-              </p>
-              <p className="mt-1 text-sm font-medium text-[#a2c2b0]">Based on 1,200 kWh excess consumption at the verified tariff.</p>
+              <p className="font-display text-3xl font-extrabold text-[#991b1b]">₹9,600 estimated loss</p>
+              <p className="mt-1 text-sm font-medium text-[#b91c1c]">Based on 1,200 kWh excess consumption at the verified tariff.</p>
             </div>
           </div>
         </div>
