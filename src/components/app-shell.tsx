@@ -43,12 +43,6 @@ export function AppShell({ children, section }: { children: React.ReactNode; sec
         </div>
 
         <div className="flex items-center gap-3">
-          {/* Profile Button */}
-          <Link to="/profile" className="flex items-center gap-2 rounded-full border border-[#17452d] bg-[#0c3120] p-1 pr-3.5 hover:bg-[#0d3826] hover:border-[#95eb27]/40 transition-all text-white">
-            <span className="grid size-7 place-items-center rounded-full bg-[#95eb27] font-extrabold text-xs text-[#072115]">AK</span>
-            <span className="hidden sm:inline text-xs font-bold text-white">Arun Kumar</span>
-          </Link>
-
           {/* Alert Button */}
           <button className="relative flex size-9 items-center justify-center rounded-full border border-[#17452d] bg-[#0c3120] text-zinc-300 hover:text-white hover:bg-[#0d3826] hover:border-[#95eb27]/40 transition-all" aria-label="Alerts & Notifications">
             <Bell size={18} />
@@ -175,27 +169,22 @@ export function PageHeader({ eyebrow, title, description, action }: { eyebrow?: 
 export function KpiCard({ label, value, detail, tone = "default", featured = false, className = "" }: { label: string; value: string; detail: string; tone?: "default" | "success" | "warning"; featured?: boolean; className?: string }) {
   if (featured) {
     return (
-      <article className={`relative overflow-hidden rounded-2xl bg-[#072115] p-6 text-white shadow-xl ${className}`}>
+      <article className={`relative overflow-hidden rounded-xl bg-[#072115] p-4 text-white shadow-md border border-[#17452d] ${className}`}>
         {/* ReMargin Logo Decorative Watermark */}
         <div className="absolute -right-6 -bottom-6 opacity-10 pointer-events-none select-none">
-          <img src={logoImage} alt="" className="w-36 h-36 object-contain" />
+          <img src={logoImage} alt="" className="w-28 h-28 object-contain" />
         </div>
 
         <div className="flex items-center justify-between">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#17452d] bg-[#0c3120] px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-[#95eb27]">
-            <span className="size-2 rounded-full bg-[#95eb27] animate-pulse" />
+          <span className="inline-flex items-center gap-1 rounded-full border border-[#17452d] bg-[#0c3120] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#95eb27]">
+            <span className="size-1 rounded-full bg-[#95eb27] animate-pulse" />
             {label}
           </span>
-          <span className="text-xs font-semibold text-[#8ca897]">Updated live</span>
+          <span className="text-[10px] font-semibold text-[#8ca897]">Live</span>
         </div>
 
-        <p className="mt-5 font-display text-4xl font-extrabold tracking-tight text-white">{value}</p>
-        <p className="mt-2 text-xs font-medium text-[#a2bcae]">{detail}</p>
-
-        <div className="mt-6 flex items-center gap-1.5 text-xs font-bold text-[#95eb27] hover:underline cursor-pointer">
-          <span>See Statistics</span>
-          <span>→</span>
-        </div>
+        <p className="mt-3 font-display text-2xl font-extrabold tracking-tight text-white">{value}</p>
+        <p className="mt-1 text-[11px] font-semibold text-[#95eb27]">{detail}</p>
       </article>
     );
   }
@@ -203,15 +192,14 @@ export function KpiCard({ label, value, detail, tone = "default", featured = fal
   const isWarning = tone === "warning" || detail.includes("excess") || detail.includes("loss");
 
   return (
-    <article className={`rounded-2xl border border-[#e1e8e2] bg-white p-6 shadow-xs hover:shadow-md transition-all ${className}`}>
+    <article className={`rounded-xl border border-[#e1e8e2] bg-white p-4 shadow-xs hover:shadow-md transition-all ${className}`}>
       <div className="flex items-center justify-between">
-        <p className="text-xs font-bold uppercase tracking-wider text-[#557060]">{label}</p>
-        <span className={`size-2.5 rounded-full ${isWarning ? "bg-[#ef4444]" : "bg-[#10b981]"}`} />
+        <p className="text-[10px] font-bold uppercase tracking-wider text-[#557060] truncate">{label}</p>
       </div>
 
-      <p className="mt-4 font-display text-3xl font-extrabold tracking-tight text-[#072115]">{value}</p>
+      <p className="mt-2.5 font-display text-2xl font-extrabold tracking-tight text-[#072115]">{value}</p>
 
-      <div className="mt-3 flex items-center justify-between text-xs">
+      <div className="mt-1.5 flex items-center justify-between text-[11px]">
         <span className={`font-semibold ${isWarning ? "text-[#ef4444]" : "text-[#10b981]"}`}>
           {detail}
         </span>
@@ -237,7 +225,6 @@ export function ChartCard({ title, subtitle, children, className = "" }: { title
           <h2 className="font-display text-lg font-extrabold text-[#072115]">{title}</h2>
           {subtitle && <p className="mt-1 text-xs font-medium text-[#557060]">{subtitle}</p>}
         </div>
-        <DemoBadge />
       </div>
       <div className="h-64">{children}</div>
     </article>

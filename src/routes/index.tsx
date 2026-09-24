@@ -128,8 +128,8 @@ const intelligenceLayers = [
     leftChartTitle: "Energy Efficiency Trend",
     leftChartSubtitle: "Actual efficiency by month",
     leftChartType: "yield" as const,
-    rightChartTitle: "₹ Loss Trend",
-    rightChartSubtitle: "Estimated avoidable cost over time",
+    rightChartTitle: "Scrap Trend",
+    rightChartSubtitle: "Material loss over time",
     rightChartType: "waste" as const,
   },
   {
