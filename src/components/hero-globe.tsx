@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import heroVideo from "@/assets/create_a_GIF_of_this_earthrota.mp4";
+import heroVideo from "@/assets/logo_branding.mp4";
 
 export function HeroGlobe() {
   const videoRef = useRef<HTMLVideoElement>(null);
