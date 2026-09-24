@@ -197,6 +197,10 @@
   animation: fade-in 0.5s ease-out forwards;
 }
 
+@utility font-display {
+  font-family: var(--font-display);
+}
+
 @utility glass-card {
   background: color-mix(in oklab, var(--color-background) 40%, transparent);
   backdrop-filter: blur(12px);
@@ -306,4 +310,13 @@
 
 .animate-fade-in-up {
   animation: fadeInUp 0.5s ease-out forwards;
+}
+
+@keyframes spin-y {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+.animate-spin-y {
+  animation: spin-y 15s linear infinite;
 }

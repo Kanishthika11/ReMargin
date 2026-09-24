@@ -158,7 +158,7 @@ export function PageHeader({ eyebrow, title, description, action }: { eyebrow?: 
     <div className="mb-7 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4">
       <div className="min-w-0">
         {eyebrow && <p className="text-xs font-extrabold uppercase tracking-wider text-[#10b981] mb-1">{eyebrow}</p>}
-        <h1 className="font-display text-3xl font-extrabold text-[#072115] sm:text-4xl tracking-tight">{title}</h1>
+        <h1 className={`font-display text-3xl font-extrabold text-[#072115] sm:text-4xl tracking-tight ${(title === "Carbon Tracker" || title === "Sustainability Analytics" || title === "Energy Monitoring") ? "italic" : ""}`}>{title}</h1>
         <p className="mt-1.5 max-w-2xl text-sm font-medium text-[#557060]">{description}</p>
       </div>
       {action && <div className="shrink-0">{action}</div>}
