@@ -20,7 +20,7 @@ export const Route = createFileRoute("/")({
 
 const features = [
   [Camera, "Photo-First Data Capture", "Upload meter, bill and production-slip photos. Review extracted values before they enter analysis."],
-  [CircleDollarSign, "₹ Loss Alerts", "Translate excess energy and material use into an estimated monetary impact factory teams can act on."],
+  [CircleDollarSign, "Suggestions", "Translate excess energy and material use into an estimated monetary impact factory teams can act on."],
   [Recycle, "Scrap & Yield Tracking", "Measure input, output, yield and excess scrap with a clear cost connection."],
   [Wrench, "Fix Tracker", "Record corrective actions and compare performance after each intervention."],
   [FileCheck2, "Auto ESG Reporting", "Organize verified operational data into sustainability and ESG-oriented outputs."],
