@@ -332,18 +332,42 @@ function LandingPage() {
           {/* Right Side: Sliding Contents */}
           <div className="lg:w-1/2 lg:pl-10 pb-40">
             {[
-              ["01", "Energy & ESG Data Is Difficult to Capture", "Many MSMEs rely on manual collection, fragmented records or specialist support. We automate capture without complex setup, connecting your factory directly to verified insights."],
-              ["02", "Energy Waste Is Not Always Visible as ₹ Loss", "Technical metrics such as kWh, carbon and efficiency can be difficult to translate into immediate business decisions. ReMargin translates inefficiency directly into your business language."],
-              ["03", "Carbon Data Is Increasingly Important", "Export-oriented manufacturers may need reliable emissions information for covered products, supply chains or customer requirements. Build an auditable, tamper-proof data trail."],
-            ].map(([num, title, text]) => (
+              {
+                num: "01",
+                title: "Smaller Manufacturers Lack Energy Data & Audit Evidence",
+                text: (
+                  <>
+                    Smaller manufacturers often lack energy data and audit evidence to larger companies. In the IEA’s 2025 survey, <strong className="text-foreground font-bold">fewer than 15% of companies with &lt;100 employees had conducted an energy audit</strong>, while <strong className="text-foreground font-bold">40–80% of CNCs could not implement individual energy-efficiency measures</strong>.
+                  </>
+                ),
+              },
+              {
+                num: "02",
+                title: "Existing Tools Focus on kWh & Carbon, Not Financial Cost",
+                text: (
+                  <>
+                    Most shops ignore existing tools because kWh and carbon don’t directly matter to their business but <strong className="text-foreground font-bold">cost does</strong>, and current tools don’t link energy waste to financial impact.
+                  </>
+                ),
+              },
+              {
+                num: "03",
+                title: "Fragmented Records Maintained in Silos",
+                text: (
+                  <>
+                    Electricity bills, machine records, production data, fuel records and scrap data are often <strong className="text-foreground font-bold">maintained separately, making it difficult to connect energy consumption with cost, carbon and production performance</strong>.
+                  </>
+                ),
+              },
+            ].map(({ num, title, text }) => (
               <div 
                 id={`gap-${num}`}
                 key={num} 
                 className={`transition-all duration-700 ease-out min-h-[50vh] flex flex-col justify-center ${activeGap === num ? 'opacity-100 translate-y-0 scale-100' : 'opacity-10 translate-y-16 scale-95'}`}
               >
                 <p className="text-sm font-extrabold uppercase tracking-widest text-primary mb-5">Gap {num}</p>
-                <h3 className="font-display text-4xl lg:text-5xl font-extrabold mb-6 leading-[1.1] text-foreground tracking-tight">{title}</h3>
-                <p className="text-lg leading-relaxed text-foreground/90 font-medium max-w-lg">{text}</p>
+                <h3 className="font-display text-3xl lg:text-4xl font-extrabold mb-6 leading-[1.15] text-foreground tracking-tight">{title}</h3>
+                <div className="text-lg leading-relaxed text-foreground/90 font-medium max-w-lg">{text}</div>
               </div>
             ))}
           </div>
