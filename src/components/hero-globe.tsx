@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import heroVideo from "@/assets/logo_branding.mp4";
+import heroVideo from "@/assets/create_a_GIF_of_this_earthrota.mp4";
 
 export function HeroGlobe() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -40,19 +40,23 @@ export function HeroGlobe() {
           const data = frame.data;
           const len = data.length;
 
-          // Merge light grey studio background into the page background green
+          // Key out background (both dark/black studio background & light backdrop)
           for (let i = 0; i < len; i += 4) {
             const r = data[i];
             const g = data[i + 1];
             const b = data[i + 2];
             const brightness = (r + g + b) / 3;
 
-            // Background is neutral off-white/grey studio backdrop
-            if (
+            // Remove dark/black video background
+            if (brightness < 18) {
+              data[i + 3] = 0;
+            } else if (brightness < 40) {
+              const factor = (brightness - 18) / 22;
+              data[i + 3] = Math.round(255 * factor);
+            } else if (
               brightness > 175 &&
-              Math.abs(r - g) <= 12 &&
-              Math.abs(g - b) <= 12 &&
-              Math.abs(r - b) <= 12
+              Math.abs(r - g) <= 15 &&
+              Math.abs(g - b) <= 15
             ) {
               const factor = Math.min(1, Math.max(0, (brightness - 175) / 25));
               data[i + 3] = Math.round(255 * (1 - factor));
@@ -97,12 +101,12 @@ export function HeroGlobe() {
         className="absolute inset-0 opacity-0 pointer-events-none w-1 h-1"
       />
 
-      {/* Canvas displaying keyed rotating globe with sharp corners and border */}
+      {/* Canvas displaying keyed rotating earth globe seamlessly on landing page dark green background */}
       <canvas
         ref={canvasRef}
         width={1280}
         height={720}
-        className="w-full h-auto object-contain drop-shadow-2xl rounded-none border border-primary/20 relative z-10"
+        className="w-full h-auto object-contain drop-shadow-[0_0_50px_rgba(72,166,94,0.25)] rounded-2xl relative z-10"
       />
     </div>
   );
