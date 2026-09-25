@@ -54,8 +54,7 @@ function ResultPage() {
           </div>
           <div className="mt-7 space-y-3">
             {[
-              ["Energy-related loss", "₹1,600"],
-              ["Scrap-related loss", "₹8,000"],
+              ["Energy-related loss", "₹9,600"],
               ["Estimated yearly amount", "₹1,15,200"],
             ].map(([a, b]) => (
               <div className="flex justify-between border-b border-[#17452d] pb-3 text-sm" key={a}>
