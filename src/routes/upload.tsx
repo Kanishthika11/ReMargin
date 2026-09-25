@@ -69,6 +69,9 @@ function UploadPage() {
   // Daily upload state
   const [startMeter, setStartMeter] = useState("14200");
   const [endMeter, setEndMeter] = useState("15400");
+  const [machine1Hours, setMachine1Hours] = useState("7.5");
+  const [machine2Hours, setMachine2Hours] = useState("6.8");
+  const [machine3Hours, setMachine3Hours] = useState("5.2");
   const [inputKg, setInputKg] = useState("500");
   const [outputKg, setOutputKg] = useState("458");
   const [scrapKg, setScrapKg] = useState("42");
@@ -92,6 +95,7 @@ function UploadPage() {
 
   // Calculated values
   const energyUsed = Number(endMeter) - Number(startMeter);
+  const totalMachineHours = (Number(machine1Hours) || 0) + (Number(machine2Hours) || 0) + (Number(machine3Hours) || 0);
   const yieldPct = Number(inputKg) > 0 ? (Number(outputKg) / Number(inputKg)) * 100 : 0;
   const scrapPct = Number(inputKg) > 0 ? (Number(scrapKg) / Number(inputKg)) * 100 : 0;
   const invalidMeter = startMeter !== "" && endMeter !== "" && energyUsed < 0;
@@ -405,14 +409,72 @@ function UploadPage() {
                 </label>
               </div>
 
+              {/* Production Hours per Machine (3 Machines) */}
+              <div className="pt-2 border-t border-[#17452d] space-y-2">
+                <span className="form-label text-[#48a65e] block font-bold text-xs uppercase tracking-wider">
+                  Production Hours per Machine
+                </span>
+                <div className="grid grid-cols-3 gap-2.5">
+                  <label className="block">
+                    <span className="text-[11px] font-semibold text-[#a2c2b0] mb-1 block">Machine 1 (CNC-01)</span>
+                    <input
+                      className="form-input text-white bg-[#072115] border-[#17452d] focus:border-[#48a65e] text-xs"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      max="24"
+                      value={machine1Hours}
+                      onChange={(e) => setMachine1Hours(e.target.value)}
+                      placeholder="e.g. 7.5"
+                    />
+                  </label>
+                  <label className="block">
+                    <span className="text-[11px] font-semibold text-[#a2c2b0] mb-1 block">Machine 2 (CNC-02)</span>
+                    <input
+                      className="form-input text-white bg-[#072115] border-[#17452d] focus:border-[#48a65e] text-xs"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      max="24"
+                      value={machine2Hours}
+                      onChange={(e) => setMachine2Hours(e.target.value)}
+                      placeholder="e.g. 6.8"
+                    />
+                  </label>
+                  <label className="block">
+                    <span className="text-[11px] font-semibold text-[#a2c2b0] mb-1 block">Machine 3 (CNC-03)</span>
+                    <input
+                      className="form-input text-white bg-[#072115] border-[#17452d] focus:border-[#48a65e] text-xs"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      max="24"
+                      value={machine3Hours}
+                      onChange={(e) => setMachine3Hours(e.target.value)}
+                      placeholder="e.g. 5.2"
+                    />
+                  </label>
+                </div>
+              </div>
+
               {invalidMeter ? (
                 <p className="text-xs text-red-400 font-semibold">End meter reading cannot be lower than start reading.</p>
-              ) : energyUsed >= 0 && startMeter && endMeter ? (
-                <div className="flex items-center justify-between rounded-xl bg-[#0c3120] border border-[#17452d] p-3 text-xs text-[#48a65e]">
-                  <span>Calculated Energy Used:</span>
-                  <strong className="text-white font-display text-base font-bold">{energyUsed.toLocaleString()} kWh</strong>
+              ) : (
+                <div className="space-y-2">
+                  {energyUsed >= 0 && startMeter && endMeter && (
+                    <div className="flex items-center justify-between rounded-xl bg-[#0c3120] border border-[#17452d] p-3 text-xs text-[#48a65e]">
+                      <span>Calculated Energy Used:</span>
+                      <strong className="text-white font-display text-base font-bold">{energyUsed.toLocaleString()} kWh</strong>
+                    </div>
+                  )}
+                  {totalMachineHours > 0 && (
+                    <div className="flex items-center justify-between rounded-xl bg-[#0c3120] border border-[#17452d] p-3 text-xs text-[#48a65e]">
+                      <span>Total Production Operating Hours:</span>
+                      <strong className="text-white font-display text-base font-bold">{totalMachineHours.toFixed(1)} hrs</strong>
+                    </div>
+                  )}
                 </div>
-              ) : null}
+              )}
             </div>
 
             {/* Scrap & Production Data Card */}
